@@ -194,4 +194,4 @@ const joinRoom = room => {
 
 const PORT = process.env.PORT || 3000;
 
-server.listen(PORT,'192.168.1.104' || 'localhost', () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
