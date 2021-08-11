@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Spyfall</title>
+        <link href="./styles/css/style.css" type="text/css" rel="stylesheet">
+        <meta charset="UTF-8">
+        <meta name="keywords" content="Spyfall, Spy Game, IO Game">
+        <meta name="description" content="Play Spyfall with your friends online. Identify the spy or guess the location.">
+        <meta name="author" content="Finn Wohner">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.1/qs.min.js" integrity="sha512-aTKlYRb1QfU1jlF3k+aS4AqTpnTXci4R79mkdie/bp6Xm51O5O3ESAYhvg6zoicj/PD6VYY0XrYwsWLcvGiKZQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="main.js" defer></script>
+    <body>
+        <header>
+            <a href="./index.html">Spyfall</a>
+        </header>
+        <section>
+            <div class="infobar">Room Code: <b id="roomCode">8234</b> <br class="mobileBr"><span class="mobileSlash">/</span> Players: <b id="playerCount">1/8</b> / Timer: <b id="timer">15:00</b> <span class="mobileSlash">/</span><br class="mobileBr"> <b class="btn" id="startBtn">Start</b> / <b id="stopBtn">Stopped</b></div>
+            <i class="hideBtn">Hide Location & Role</i>
+            <div class="location">
+                <h1>Location</h1>
+                <h2>Role</h2>
+            </div>
+            <div class="players">
+                <p class="left top">nice</p>
+                <p class="top">Dongus</p>
+                <p class="top">Finn</p>
+                <p class="top"></p>
+                <p class="left"></p>
+                <p></p>
+                <p></p>
+                <p></p>
+            </div>
+            <div class="locations">
+                <p class="top left"></p><p class="top"></p><p class="top"></p><p class="noMobileTop mobileLeft"></p>
+                <p class="noMobileLeft"></p><p></p><p class="mobileLeft"></p><p></p>
+                <p class="noMobileLeft"></p><p class="mobileLeft"></p><p></p><p></p>
+                <p class="left"></p><p></p><p></p><p class="mobileLeft"></p>
+                <p class="noMobileLeft"></p><p></p><p class="mobileLeft"></p><p></p>
+                <p class="noMobileLeft"></p><p class="mobileLeft"></p><p></p><p></p>
+            </div>
+        </section>
+    </body>
+</html>

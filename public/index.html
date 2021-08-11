@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Spyfall</title>
+        <link href="./styles/css/style.css" type="text/css" rel="stylesheet">
+        <meta charset="UTF-8">
+        <meta name="keywords" content="Spyfall, Spy Game, IO Game">
+        <meta name="description" content="Play Spyfall with your friends online. Identify the spy or guess the location.">
+        <meta name="author" content="Finn Wohner">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="./btns.js" defer></script>
+    <body>
+        <header>
+            <a>Spyfall</a>
+        </header>
+        <main>
+            <div class="menu">
+                <button id="startBtn">Start Game</button>
+                <button id="joinBtn">Join Game</button>
+            </div>
+            <form class="joinForm" action="./room.html" method="GET" style="display: none">
+                <div class="join-roomCode">
+                    <button class="backBtn">Back</button>
+                    <input id="join-roomInput" name="room" type="text" placeholder="Room Code" autocomplete="off" required>
+                    <button class="join-nextBtn">Next</button>
+                </div>
+                <div class="join-name" style="display: none">
+                    <button class="backBtn">Back</button>
+                    <input id="join-nameInput" type="text" placeholder="Name" autocomplete="off" required>
+                    <input type="submit" value="Join Game">
+                </div>
+            </form>
+            <form action="./room.html" class="startForm" style="display: none">
+                <button class="backBtn">Back</button>
+                <input id="start-nameInput" type="text" placeholder="Name" autocomplete="off" required>
+                <input type="submit" value="Start Game">
+            </form>
+        </main>
+        <footer>
+            <div id="howtoplay"><h2>How To Play</h2></div>
+            <i>Spyfall is a game originally designed by Alexandr Ushan, and published by Hobby World in 2014.</i>
+        </footer>
+    </body>
+</html>
