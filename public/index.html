@@ -1,44 +1,21 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Spyfall</title>
-        <link href="./styles/css/style.css" type="text/css" rel="stylesheet">
-        <meta charset="UTF-8">
-        <meta name="keywords" content="Spyfall, Spy Game, IO Game">
-        <meta name="description" content="Play Spyfall with your friends online. Identify the spy or guess the location.">
-        <meta name="author" content="Finn Wohner">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="./btns.js" defer></script>
+        <title>Spyfall.Live</title>
+        <link href="./styles/style.css" type="text/css" rel="stylesheet">
+    </head>
     <body>
-        <header>
-            <a>Spyfall</a>
-        </header>
-        <main>
-            <div class="menu">
-                <button id="startBtn">Start Game</button>
-                <button id="joinBtn">Join Game</button>
-            </div>
-            <form class="joinForm" action="./room.html" method="GET" style="display: none">
-                <div class="join-roomCode">
-                    <button class="backBtn">Back</button>
-                    <input id="join-roomInput" name="room" type="text" placeholder="Room Code" autocomplete="off" required>
-                    <button class="join-nextBtn">Next</button>
-                </div>
-                <div class="join-name" style="display: none">
-                    <button class="backBtn">Back</button>
-                    <input id="join-nameInput" type="text" placeholder="Name" autocomplete="off" required>
-                    <input type="submit" value="Join Game">
-                </div>
-            </form>
-            <form action="./room.html" class="startForm" style="display: none">
-                <button class="backBtn">Back</button>
-                <input id="start-nameInput" type="text" placeholder="Name" autocomplete="off" required>
-                <input type="submit" value="Start Game">
-            </form>
-        </main>
+        <h1 class="header"><a href="./">Spyfall.Live</a></h1>
+        <div class="menu">
+            <button>Start Game</button>
+            <button>Join Game</button>
+        </div>
         <footer>
-            <div id="howtoplay"><h2>How To Play</h2></div>
-            <i>Spyfall is a game originally designed by Alexandr Ushan, and published by Hobby World in 2014.</i>
+            <a href="./howtoplay">How To Play</a>
+            <p><a href="https://boardgamegeek.com/boardgame/166384/spyfall" target="#">Spyfall</a> is a game originally designed by <a href="https://boardgamegeek.com/boardgamedesigner/78199/alexandr-ushan" target="#">Alexandr Ushan</a>,
+                 and published by Hobby World in 2014.
+            </p>
+            <p>This website was made by <a href="https://github.com/frriNz" target="#">Finn Wohner</a>.</p>
         </footer>
     </body>
 </html>

@@ -1,0 +1,167 @@
+@import url("https://rsms.me/inter/inter.css");
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+::-moz-selection {
+  background: #ffff00;
+}
+
+::selection {
+  background: #ffff00;
+}
+
+html {
+  font-family: 'Inter Var', 'Inter', 'Helvetica', sans-serif;
+  text-align: center;
+}
+
+body {
+  width: 600px;
+  margin: 0 auto;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+.header a {
+  background: #ffff00;
+  padding: 0.2rem 1rem;
+  font-size: 4rem;
+  font-weight: 900;
+}
+
+.header {
+  border-bottom: 1px solid #dcdcdc;
+  padding: 1rem;
+}
+
+.menu {
+  height: 50vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.inner-cont {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.outer-cont {
+  margin: 1rem 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+li {
+  list-style: none;
+  margin: 0.5rem 0;
+}
+
+.card {
+  font-size: 0.9rem;
+  padding: 1rem;
+  border: 1px solid #dcdcdc;
+  background: #fff;
+  display: inline-block;
+}
+
+p a {
+  font-weight: 400;
+  border-bottom: 3px solid #ffff00;
+  -webkit-transition: 0.1s background-color ease-in-out;
+  transition: 0.1s background-color ease-in-out;
+}
+
+p a:hover {
+  background: #ffff00;
+  border: none;
+}
+
+a.card {
+  font-weight: 400;
+  font-size: 1rem;
+  -webkit-transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out;
+}
+
+a.card:hover {
+  background: #eee;
+}
+
+h2 {
+  text-align: center;
+  font-weight: 400;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.menu button {
+  border: 1px solid #dcdcdc;
+  width: 200px;
+  height: 60px;
+  background: #fff;
+  font-size: 1rem;
+  margin: 0.5rem;
+  -webkit-transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out;
+  cursor: pointer;
+}
+
+.menu button:hover {
+  background: #eee;
+}
+
+footer {
+  height: 7rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+html {
+  font-family: 'Inter', sans-serif;
+}
+
+@supports (font-variation-settings: normal) {
+  html {
+    font-family: 'Inter var', sans-serif;
+  }
+}
+/*# sourceMappingURL=style.css.map */
