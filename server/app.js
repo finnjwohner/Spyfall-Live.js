@@ -9,6 +9,7 @@ const io = socketio(server);
 
 const locations = require('./locations_sv.js');
 const roles = require('./roles_sv.js');
+const room = require('./rooms_sv.js');
 
 // Initialise the rooms
 const rooms = new Map();
@@ -20,8 +21,8 @@ app.all('/', (req, res) => {
     res.sendFile(path.join(__dirnname, '../public/index.html'));
 })
 
-app.all('/howtoplay', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/howto.html'));
+app.all('/rules', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/rules.html'));
 })
 
 app.all('/:roomCode', (req, res) => {
@@ -29,12 +30,30 @@ app.all('/:roomCode', (req, res) => {
     if (rooms.has(roomCode)) {
         // Check if game is full then
         // Join game...
-    } else if (!isNaN(roomCode) & roomCode.length == 5) {
-        // Create new game
     } else {
         // Invalid code
     }
     res.sendFile(path.join(__dirname, '../public/room.html'));
+})
+
+io.on("connection", socket => {
+    const player = {
+        room: null,
+        username: null,
+    }
+
+    // Start Game button clicked
+    socket.on('requestStartGame', () => {
+        let newRoomCode = null;
+        do {
+            newRoomCode = Math.floor(Math.random() * 100000).toString();
+            while (newRoomCode.length < 5) {
+                newRoomCode = "0" + newRoomCode;
+            }
+        } while (rooms.has(newRoomCode));
+        rooms.set(newRoomCode, new room.Room());
+        socket.emit('acceptStartGameRequest', newRoomCode);
+    })
 })
 
 const port = process.env.PORT || 3000

@@ -2,13 +2,18 @@
 <html>
     <head>
         <title>Spyfall.Live</title>
+        <meta charset="UTF-8">
+        <meta name="keywords" content="Spyfall, Spyfall.io, Spyfall.live">
+        <meta name="author" content="Finn Wohner">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="./styles/style.css" type="text/css" rel="stylesheet">
     </head>
     <body>
         <h1 class="header"><a href="./">Spyfall.Live</a></h1>
         <div class="outer-cont">
             <div class="inner-cont">
-                <div class="card" style="width: calc(50% - 0.5rem);">
+                <!-- I've never used CSS variables before so I thought it might be fun to try :) -->
+                <div class="card" style="--amount: calc(50% - 0.5rem);">
                     <h2>Requirements</h2>
                     <ul>
                         <li>4 to 10 Players</li>
@@ -16,7 +21,7 @@
                         <li>Every player has <strong>Spyfall.Live</strong> open on a browser</li>
                     </ul>
                 </div>
-                <div class="card"  style="width: calc(50% - 0.5rem);">
+                <div class="card" style="--amount: calc(50% - 0.5rem);">
                     <h2>Goal</h2>
                     <ul>
                         <li><strong>Spy: </strong>Guess the location from others' questions and answers</li>
@@ -24,17 +29,17 @@
                     </ul>
                 </div>
             </div>
-            <div class="card" style="width: 100%; margin-top: 1rem">
+            <div class="card">
                 <h2>How to play a round</h2>
                 <ol>
                     <li><strong>Location: </strong>When the round starts, each player except for the spy is told the location, and is given a role there. The spy does not know the location.</li>
-                    <li><strong>Question: </strong>player with the {icon} icon next to their name begins by questioning a player of their choice about the location, for example <i>"How was your commute here today?</i></li>
+                    <li><strong>Question: </strong>The player with the {icon} icon next to their name begins by questioning a player of their choice about the location, for example <i>"How was your commute here today?</i></li>
                     <li><strong>Answer: </strong>The questioned player must answer. No follow up questions are allowed. After they answer they get to question a different player. This continues until the round is over.</li>
                     <li><strong>No Retaliation: </strong>If someone just finished asking you a question, you can not immediatlely ask them a question back.</li>
                 </ol>
             </div>
-            <div class="inner-cont" style="margin-top: 1rem;">
-                <div class="card" style="width: calc(65% - 0.5rem);">
+            <div class="inner-cont">
+                <div class="card" style="--amount: calc(65% - 0.5rem);">
                     <h2>Guessing the Spy</h2>
                     <ul>
                         <li><strong>Vote: </strong>At any time, a player can put up someone they suspect to be a spy to a vote.</li>
@@ -43,7 +48,7 @@
                         <li><strong>Spy Revealed: </strong>After the vote, the player must reveal if they were the spy. The round ends.</li>
                     </ul>
                 </div>
-                <div class="card" style="width: calc(35% - 0.5rem); text-align: justify;">
+                <div class="card" style="--amount: calc(35% - 0.5rem);">
                     <h2>Guessing the location</h2>
                     <ul>
                         <li>The spy can choose to reveal themselves and guess the location at any point in the game. The round immediatlely ends.</li>
