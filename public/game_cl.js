@@ -40,6 +40,7 @@ let username = '';
 const errorForm = document.querySelector('section.error-form');
 try {
     const roomCode = window.location.pathname.match(/[0-9]{5}/)[0];
+    socket.emit('requestJoinGame', roomCode);
     joinBtn.addEventListener('mousedown', () => {
         if (nameInput.value == '') {
             validNameText.style.visibility = 'visible';
