@@ -1,9 +1,14 @@
 @import url("https://rsms.me/inter/inter.css");
 * {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: 'Inter Var', 'Inter', 'Helvetica', sans-serif;
+}
+
+::-moz-selection {
+  background: #ffff00;
 }
 
 ::selection {
@@ -35,28 +40,52 @@ a {
 .header {
   border-bottom: 1px solid #dcdcdc;
   padding: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .menu {
   height: 50vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .inner-cont {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .outer-cont {
   margin: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .half-card {
@@ -84,6 +113,7 @@ li {
 p a {
   font-weight: 400;
   border-bottom: 3px solid #ffff00;
+  -webkit-transition: 0.1s background-color ease-in-out;
   transition: 0.1s background-color ease-in-out;
 }
 
@@ -102,6 +132,7 @@ p a::after {
 a.card {
   font-weight: 400;
   font-size: 1rem;
+  -webkit-transition: 0.1s ease-in-out;
   transition: 0.1s ease-in-out;
 }
 
@@ -123,6 +154,7 @@ h2 {
   background: #fff;
   font-size: 1rem;
   margin: 0.5rem;
+  -webkit-transition: 0.1s ease-in-out;
   transition: 0.1s ease-in-out;
   cursor: pointer;
   color: #000;
@@ -134,9 +166,25 @@ h2 {
 
 footer {
   height: 7rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 html {
@@ -160,7 +208,10 @@ html {
     height: 10rem;
   }
   .inner-cont {
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
   .outer-cont {
     margin-bottom: 5rem;
@@ -169,3 +220,4 @@ html {
     width: 100%;
   }
 }
+/*# sourceMappingURL=style.css.map */

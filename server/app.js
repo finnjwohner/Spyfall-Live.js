@@ -38,6 +38,7 @@ app.all('/:roomCode', (req, res) => {
 
 io.on("connection", socket => {
     const player = {
+        playerSocketID: socket.io,
         room: null,
         username: null,
     }
@@ -51,7 +52,10 @@ io.on("connection", socket => {
                 newRoomCode = "0" + newRoomCode;
             }
         } while (rooms.has(newRoomCode));
-        rooms.set(newRoomCode, new room.Room());
+        const newRoom = new room.Room();
+        newRoom.players.push(player)
+        rooms.set(newRoomCode, newRoom);
+
         socket.emit('acceptStartGameRequest', newRoomCode);
     })
 })
