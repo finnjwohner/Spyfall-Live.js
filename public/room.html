@@ -3,16 +3,71 @@
     <head>
         <title>Spyfall.Live</title>
         <link href="./styles/style.css" type="text/css" rel="stylesheet">
+        <script src="./game_cl.js" defer></script>
+        <script src="/socket.io/socket.io.js"></script>
     </head>
     <body>
+        <section class="error-form" style="background: #fff;">
+            <div class="form">
+                <h2>There was an error joining this game</h2>
+                <a href="./">Return to Menu</a>
+            </div>
+        </section>
+        <section class="join-form">
+            <div class="form">
+                <h2>Set your name to join the game</h2>
+                <a href="./">Return to Menu</a>
+                <p id="valid-name-text">Please enter a valid name</p>
+                <input type="text" name="username" placeholder="Username" maxlength="20" autocomplete="off">
+                <button id="join-btn">Join</button>
+            </div>
+        </section>
         <h1 class="header"><a href="./">Spyfall.Live</a></h1>
         <header>
             <p>Start</p>
             <p>Room Code</p>
             <p>Timer</p>
         </header>
-        <div class="players">
-            
+        <button id="hide-info-btn">Hide Location & Role</button>
+        <h1 id="location">Location</h1>
+        <h2 id="role">Role</h2>
+        <h3>Player List</h3>
+        <div class="info-container players">
+            <p class="player"></p>
+            <p class="player"></p>
+            <p class="player"></p>
+            <p class="player"></p>
+            <p class="player"></p>
+            <p class="player"></p>
+            <p class="player"></p>
+            <p class="player"></p>
+        </div>
+        <h3>Location List</h3>
+        <div class="info-container">
+            <p>Aeroplane</p>
+            <p>Bank</p>
+            <p>Beach</p>
+            <p>Theatre</p>
+            <p>Casino</p>
+            <p>Cathedral</p>
+            <p>Circus Tent</p>
+            <p>Corporate Party</p>
+            <p>Crusader Army</p>
+            <p>Wellness Centre</p>
+            <p>Consulate</p>
+            <p>Hospital</p>
+            <p>Hotel</p>
+            <p>Army Base</p>
+            <p>Film Studio</p>
+            <p>Ocean Liner</p>
+            <p>Passenger Train</p>
+            <p>Pirate Ship</p>
+            <p>Polar Station</p>
+            <p>Police Station</p>
+            <p>Restaurant</p>
+            <p>School</p>
+            <p>Service Station</p>
+            <p>Space Station</p>
         </div>
     </body>
 </html>

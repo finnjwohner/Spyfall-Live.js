@@ -37,13 +37,15 @@ app.all('/:roomCode', (req, res) => {
 })
 
 io.on("connection", socket => {
+    console.log('new connection');
     const player = {
         playerSocketID: socket.io,
-        room: null,
-        username: null,
+        username: 'Joining',
     }
 
-    // Start Game button clicked
+    // User clicked the start new game button
+    // This function will assign a new room to them and
+    // return the room code back to the user
     socket.on('requestStartGame', () => {
         let newRoomCode = null;
         do {
@@ -53,10 +55,20 @@ io.on("connection", socket => {
             }
         } while (rooms.has(newRoomCode));
         const newRoom = new room.Room();
-        newRoom.players.push(player)
         rooms.set(newRoomCode, newRoom);
 
         socket.emit('acceptStartGameRequest', newRoomCode);
+    })
+
+    socket.on('requestJoinGame', roomCode => {
+    })
+
+    socket.on('joinGame', (username, roomCode) => {
+        player.username = username;
+        const tempRoom = rooms.get(roomCode);
+        tempRoom.players
+        tempRoom.players.push(player);
+        rooms.set(roomCode, tempRoom);
     })
 })
 
