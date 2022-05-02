@@ -149,15 +149,20 @@ io.on("connection", socket => {
                     spyIndex = Math.floor(Math.random()*tempPlayers.length)
                 } while (!tempPlayers[spyIndex].joined);
 
-                socket.emit('assigmment', 'Spy', '');
+                io.to(tempPlayers[spyIndex].socketID).emit('assigmment', 'Spy', '');
 
                 locationIndex = Math.floor(Math.random()*24);
+                let assignedRoles = [];
 
                 tempPlayers.forEach(player => {
                     if(player.joined) {
                         if (player.socketID != tempPlayers[spyIndex].socketID) {
-                            const role = roles.roles[locationIndex][Math.floor(Math.random()*7)];
-                            socket.emit('assigmment', locations.locations[locationIndex], role);
+                            let role  = '';
+                            do {
+                                role = roles.roles[locationIndex][Math.floor(Math.random()*7)];
+                            } while(assignedRoles.includes(role));
+                            assignedRoles.push(role);
+                            io.to(player.socketID).emit('assigmment', locations.locations[locationIndex], role);
                         }
                     }
                 })
