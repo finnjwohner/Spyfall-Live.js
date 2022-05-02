@@ -70,6 +70,7 @@ socket.on('unknownGameReject', roomCode => {
     error(`No game could be found with the room code ${roomCode}`);
 })
 
+const startBtn = document.querySelector('#start-btn');
 const playersContainer = document.querySelector('.players');
 socket.on('playerChange', players => {
     playersContainer.textContent = '';
@@ -78,6 +79,10 @@ socket.on('playerChange', players => {
         const playerBox = document.createElement("p");
         playerBox.classList.add("player");
         playerBox.innerHTML = player.username;
+        if (!player.playing) {
+            playerBox.style.color = '#dcdcdc';
+            playerBox.style.fontStyle = 'italic';
+        }
         playersContainer.appendChild(playerBox);
     })
 
@@ -86,4 +91,21 @@ socket.on('playerChange', players => {
         playerBox.classList.add("player");
         playersContainer.appendChild(playerBox);
     }
+});
+
+socket.on('stateChange', state => {
+    if (state) {
+        startBtn.innerHTML = 'Stop';
+    } else {
+        startBtn.innerHTML = 'Start';
+    }
+})
+
+startBtn.addEventListener('mousedown', () => {
+    socket.emit('startStopGame');
+})
+
+socket.on('assigmment', (location, role) => {
+    locationText.innerHTML = location;
+    roleText.innerHTML = role;
 });

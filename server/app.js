@@ -27,12 +27,14 @@ app.all('/rules', (req, res) => {
 app.all('/:roomCode', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/room.html'));
 })
-    
+
 io.on("connection", socket => {
     const player = {
         socketID: socket.id,
         username: 'Joining',
         roomCode: '',
+        playing: false,
+        joined: false,
     }
 
     // User clicked the start new game button
@@ -49,6 +51,7 @@ io.on("connection", socket => {
 
         console.log(`Creating room (${newRoomCode})`);
         const players = [ ];
+        players.started = false;
         rooms.set(newRoomCode, players);
 
         socket.emit('acceptStartGameRequest', newRoomCode);
@@ -78,6 +81,7 @@ io.on("connection", socket => {
 
     socket.on('joinGame', (username, roomCode) => {
         player.username = username;
+        player.joined = true;
         const tempPlayers = rooms.get(roomCode);
 
         for(i = 0; i < tempPlayers.length; i++) {
@@ -110,6 +114,57 @@ io.on("connection", socket => {
         } else {
             console.log(`Clearing Room (${player.roomCode})`);
             rooms.delete(player.roomCode);
+        }
+    })
+
+    // Start a game:
+    // 1. Set every player that isn't currently joining to playing
+    // 2. Assign a random player as spy
+    // 3. Assign a random location
+    // 4. Assign every other player that isn't a spy a role
+    socket.on('startStopGame', () => {
+        if (!rooms.has(player.roomCode)) { return; }
+
+        const tempPlayers = rooms.get(player.roomCode);
+        if (tempPlayers.started) {
+            tempPlayers.started = false;
+            io.to(player.roomCode).emit("stateChange", false);
+            io.to(player.roomCode).emit('assigmment', 'Location', 'Role');
+        } else {
+            let playingCount = 0;
+
+            for(i = 0; i < tempPlayers.length; i++) {
+                if (tempPlayers[i].joined) {
+                    tempPlayers[i].playing = true;
+                    playingCount++;
+                }
+            }
+
+            if (playingCount > 0) {
+                tempPlayers.started = true;
+                io.to(player.roomCode).emit("stateChange", true);
+
+                let spyIndex = 0;
+                do {
+                    spyIndex = Math.floor(Math.random()*tempPlayers.length)
+                } while (!tempPlayers[spyIndex].joined);
+
+                socket.emit('assigmment', 'Spy', '');
+
+                locationIndex = Math.floor(Math.random()*24);
+
+                tempPlayers.forEach(player => {
+                    if(player.joined) {
+                        if (player.socketID != tempPlayers[spyIndex].socketID) {
+                            const role = roles.roles[locationIndex][Math.floor(Math.random()*7)];
+                            socket.emit('assigmment', locations.locations[locationIndex], role);
+                        }
+                    }
+                })
+                
+                io.to(player.roomCode).emit("playerChange", tempPlayers);
+                rooms.set(player.roomCode, tempPlayers);
+            }
         }
     })
 })

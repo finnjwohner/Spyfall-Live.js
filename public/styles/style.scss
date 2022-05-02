@@ -276,6 +276,15 @@ section.error-form {
     display: none;
 }
 
+header #start-btn::selection {
+    background: none;
+}
+
+header #start-btn {
+    cursor: pointer;
+    border-bottom: 1px solid black;
+}
+
 @import url('https://rsms.me/inter/inter.css');
 html { font-family: 'Inter', sans-serif; }
 @supports (font-variation-settings: normal) {
