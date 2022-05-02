@@ -9,7 +9,6 @@ const io = socketio(server);
 
 const locations = require('./locations_sv.js');
 const roles = require('./roles_sv.js');
-const room = require('./rooms_sv.js');
 
 // Initialise the rooms
 const rooms = new Map();
@@ -26,21 +25,14 @@ app.all('/rules', (req, res) => {
 })
 
 app.all('/:roomCode', (req, res) => {
-    const roomCode = req.params.roomCode;
-    if (rooms.has(roomCode)) {
-        // Check if game is full then
-        // Join game...
-    } else {
-        // Invalid code
-    }
     res.sendFile(path.join(__dirname, '../public/room.html'));
 })
-
+    
 io.on("connection", socket => {
-    console.log('new connection');
     const player = {
-        playerSocketID: socket.io,
+        socketID: socket.id,
         username: 'Joining',
+        roomCode: '',
     }
 
     // User clicked the start new game button
@@ -54,21 +46,71 @@ io.on("connection", socket => {
                 newRoomCode = "0" + newRoomCode;
             }
         } while (rooms.has(newRoomCode));
-        const newRoom = new room.Room();
-        rooms.set(newRoomCode, newRoom);
+
+        console.log(`Creating room (${newRoomCode})`);
+        const players = [ ];
+        rooms.set(newRoomCode, players);
 
         socket.emit('acceptStartGameRequest', newRoomCode);
     })
 
     socket.on('requestJoinGame', roomCode => {
+        if (!rooms.has(roomCode)) {
+            socket.emit('unknownGameReject', roomCode);
+            return;
+        }
+        const tempPlayers = rooms.get(roomCode);
+
+        if(tempPlayers.length >= 8) {
+            console.log(`User (${socket.id}) rejected from room (${roomCode}). Room Full`);
+            socket.emit('fullGameReject');
+        } else {
+            socket.join(roomCode);
+            player.roomCode = roomCode;
+            tempPlayers.push(player);
+
+            io.to(roomCode).emit("playerChange", tempPlayers);
+            
+            rooms.set(roomCode, tempPlayers);
+            console.log(`User (${socket.id}) joined room (${roomCode})`);
+        }
     })
 
     socket.on('joinGame', (username, roomCode) => {
         player.username = username;
-        const tempRoom = rooms.get(roomCode);
-        tempRoom.players
-        tempRoom.players.push(player);
-        rooms.set(roomCode, tempRoom);
+        const tempPlayers = rooms.get(roomCode);
+
+        for(i = 0; i < tempPlayers.length; i++) {
+            if (tempPlayers[i].socketID == socket.io) {
+                tempPlayers[i] = player;
+            }
+        }
+
+        io.to(roomCode).emit("playerChange", tempPlayers);
+
+        rooms.set(roomCode, tempPlayers);
+    })
+
+    socket.on('disconnect', () => {
+        if (player.roomCode == '') { return; }
+
+        console.log(`User (${socket.id}) disconnected from room (${player.roomCode})`);
+
+        socket.leave(player.roomCode);
+        const tempPlayers = rooms.get(player.roomCode);
+        for(i = 0; i < tempPlayers.length; i++) {
+            if (tempPlayers[i].socketID == socket.id) {
+                tempPlayers.splice(i, 1);
+            }
+        }
+
+        if (tempPlayers.length > 0) {
+            io.to(player.roomCode).emit("playerChange", tempPlayers);
+            rooms.set(player.roomCode, tempPlayers);
+        } else {
+            console.log(`Clearing Room (${player.roomCode})`);
+            rooms.delete(player.roomCode);
+        }
     })
 })
 

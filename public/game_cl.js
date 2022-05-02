@@ -38,8 +38,16 @@ const nameInput = document.querySelector('.join-form input');
 const validNameText = document.querySelector('p#valid-name-text');
 let username = '';
 const errorForm = document.querySelector('section.error-form');
+
+const error = errorMsg => {
+    joinSection.style.display = 'none';
+    errorForm.style.display = 'flex';
+    document.querySelector('.error-form h2').innerHTML = errorMsg;
+}
+
 try {
     const roomCode = window.location.pathname.match(/[0-9]{5}/)[0];
+    document.querySelector('#roomCode').innerHTML = 'Room: ' + roomCode;
     socket.emit('requestJoinGame', roomCode);
     joinBtn.addEventListener('mousedown', () => {
         if (nameInput.value == '') {
@@ -51,6 +59,31 @@ try {
         }
     })
 } catch(Exception) {
-    joinSection.style.display = 'none';
-    errorForm.style.display = 'flex';
+    error('There was an error finding the roomcode in the URL');
 }
+
+socket.on('fullGameReject', () => {
+    error('Error joining the game, the game was full')
+})
+
+socket.on('unknownGameReject', roomCode => {
+    error(`No game could be found with the room code ${roomCode}`);
+})
+
+const playersContainer = document.querySelector('.players');
+socket.on('playerChange', players => {
+    playersContainer.textContent = '';
+
+    players.forEach(player => {
+        const playerBox = document.createElement("p");
+        playerBox.classList.add("player");
+        playerBox.innerHTML = player.username;
+        playersContainer.appendChild(playerBox);
+    })
+
+    for(i = 0; i < (8 - players.length); i++) {
+        const playerBox = document.createElement("p");
+        playerBox.classList.add("player");
+        playersContainer.appendChild(playerBox);
+    }
+});
