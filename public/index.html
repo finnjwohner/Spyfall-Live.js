@@ -9,8 +9,24 @@
         <link href="./styles/style.css" type="text/css" rel="stylesheet">
         <script src="/socket.io/socket.io.js"></script>
         <script src="./menu_cl.js" defer></script>
+        <meta property="og:title" content="Spyfall.Live" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.spyfall.live/" />
+        <meta property="og:image" content="https://www.spyfall.live/img/opengraphimg.jpeg" />
+        <meta property="og:description" content=""/>
+        <meta property="og:locale" content="en_GB" />
+        <meta property="og:locale:alternate" content="en_US" />
     </head>
     <body>
+        <section class="code-join-form">
+            <div class="form">
+                <h2>Enter the room code to join</h2>
+                <a>Go Back</a>
+                <p id="valid-name-text">Please enter a valid name</p>
+                <input type="number" name="roomcode" placeholder="Room Code" maxlength="5" min="10000" max="99999" autocomplete="off">
+                <button id="code-join-btn">Join</button>
+            </div>
+        </section>
         <h1 class="header"><a href="./">Spyfall.Live</a></h1>
         <div class="menu">
             <button id="start-btn">Start Game</button>

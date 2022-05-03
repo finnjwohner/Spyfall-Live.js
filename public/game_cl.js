@@ -15,6 +15,7 @@ info.forEach(i => {
     });
 });
 
+let leader = '';
 let strikedPlayers = [];
 const strikePlayers = () => {
     players = document.querySelectorAll('.player');
@@ -28,6 +29,11 @@ const strikePlayers = () => {
         } else {
             p.style.textDecoration ='none';
             p.style.color = '#000';
+        }
+
+        if (leader != '' && leader == p.id) {
+            console.log('adding leader');
+            p.classList.add('leader');
         }
 
         p.addEventListener('mousedown', () => {
@@ -128,16 +134,24 @@ socket.on('playerChange', players => {
     strikePlayers();
 });
 
+socket.on('stateSet', state => {
+    if (state) {
+        startBtn.innerHTML = 'Stop';
+    } else {
+        startBtn.innerHTML = 'Start';
+    }
+})
+
 const pad = (num, size) => {return ('00000' + num).substr(-size); }
 
 const timer = document.querySelector('#timer');
 let timerSecondsLeft = 900;
 let intervalID = '';
-socket.on('stateChange', state => {
+socket.on('stateChange', (state, leaderID) => {
     if (state) {
-        strikedPlayers = [];
+        leader = leaderID;
         strikePlayers();
-        
+
         startBtn.innerHTML = 'Stop';
         timerSecondsLeft = 900;
 

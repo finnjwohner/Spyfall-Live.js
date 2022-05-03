@@ -91,6 +91,7 @@ io.on("connection", socket => {
         }
 
         io.to(roomCode).emit("playerChange", tempPlayers);
+        socket.emit('stateSet', tempPlayers.started);
 
         rooms.set(roomCode, tempPlayers);
     })
@@ -142,7 +143,7 @@ io.on("connection", socket => {
 
             if (playingCount > 0) {
                 tempPlayers.started = true;
-                io.to(player.roomCode).emit("stateChange", true);
+                io.to(player.roomCode).emit("stateChange", true, socket.id);
 
                 let spyIndex = 0;
                 do {

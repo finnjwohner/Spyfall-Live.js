@@ -2,9 +2,20 @@
 <html>
     <head>
         <title>Spyfall.Live</title>
+        <meta charset="UTF-8">
+        <meta name="keywords" content="Spyfall, Spyfall.io, Spyfall.live">
+        <meta name="author" content="Finn Wohner">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="./styles/style.css" type="text/css" rel="stylesheet">
         <script src="./game_cl.js" defer></script>
         <script src="/socket.io/socket.io.js"></script>
+        <meta property="og:title" content="Spyfall.Live" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.spyfall.live/" />
+        <meta property="og:image" content="https://www.spyfall.live/img/opengraphimg.jpeg" />
+        <meta property="og:description" content=""/>
+        <meta property="og:locale" content="en_GB" />
+        <meta property="og:locale:alternate" content="en_US" />
     </head>
     <body>
         <section class="error-form" style="background: #fff;">
@@ -18,7 +29,7 @@
                 <h2>Set your name to join the game</h2>
                 <a href="./">Return to Menu</a>
                 <p id="valid-name-text">Please enter a valid name</p>
-                <input type="text" name="username" placeholder="Username" maxlength="20" autocomplete="off">
+                <input type="text" name="username" placeholder="Username" maxlength="16" autocomplete="off">
                 <button id="join-btn">Join</button>
             </div>
         </section>
@@ -26,7 +37,7 @@
         <header>
             <div class="wrapper"><p id="start-btn">Start</p></div>
             <div class="wrapper"><p id="roomCode">Room Code</p></div>
-            <div class="wrapper"><p id='timer'>15:00</p></div>
+            <div class="wrapper"><p id='timer'>Timer</p></div>
         </header>
         <button id="hide-info-btn">Hide Location & Role</button>
         <h1 id="location">Location</h1>

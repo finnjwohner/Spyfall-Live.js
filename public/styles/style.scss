@@ -13,6 +13,11 @@ html {
     text-align: center;
 }
 
+body {
+    margin: 0 auto;
+    max-width: 95vw;
+}
+
 button {
     outline: none;
     border: none;
@@ -217,7 +222,7 @@ div.info-container p {
     padding: 0.5rem 1rem;
     margin: 0.2rem 0;
     display: flex;
-    align-items: center;
+    align-items: center;    
     justify-content: center;
     transition: color 0.1s ease-in-out;
 }
@@ -240,6 +245,7 @@ section {
 }
 
 section .form {
+    max-width: 80vw;
     justify-content: center;
     align-items: center;
     display: flex;
@@ -267,6 +273,8 @@ section .form button:hover {
 }
 
 section .form a {
+    cursor: pointer;
+    font-size: 1rem;
     margin-bottom: 1rem;
     font-weight: 300;
     border-bottom: 1px solid #000;
@@ -304,9 +312,9 @@ html { font-family: 'Inter', sans-serif; }
   html { font-family: 'Inter var', sans-serif; }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 630px) {
     body {
-        width: 320px;
+        width: 480px;
     }
 
     .header a {
@@ -327,5 +335,59 @@ html { font-family: 'Inter', sans-serif; }
 
     .card {
         width: 100%;
+    }
+
+    div.info-container p {
+        width: 7rem;
+        height: 2.5rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media only screen and (max-width: 515px) {
+    body {
+        width: 380px;
+    }
+
+    div.info-container p {
+        width: 5.6rem;
+        height: 2.2rem;
+        font-size: 0.7rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+
+    .header a {
+        font-size: 2rem;
+    }
+
+    header .wrapper {
+        font-size: 0.8rem;
+    }
+
+    button#hide-info-btn {
+        margin-top: 0.5rem;
+    }
+
+    h1#location {
+        line-height: 110%;
+    }
+}
+
+@media only screen and (max-width: 380px) {
+    body {
+        width: 310px;
+    }
+
+    div.info-container p {
+        width: 4.5rem;
+        height: 2rem;
+        font-size: 0.6rem;
+    }
+
+    h3 {
+        font-size: 1rem;
     }
 }
