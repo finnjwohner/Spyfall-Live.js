@@ -168,6 +168,19 @@ header {
     justify-content: space-between;
 }
 
+header .wrapper {
+    flex: 1;
+}
+
+header #start-btn {
+    width: fit-content;
+    text-align: left;
+}
+
+header #timer {
+    text-align: right;
+}
+
 button#hide-info-btn {
     margin-top: 1rem;
     color: #a5a5a5;

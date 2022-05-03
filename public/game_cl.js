@@ -93,11 +93,32 @@ socket.on('playerChange', players => {
     }
 });
 
+const pad = (num, size) => {return ('00000' + num).substr(-size); }
+
+const timer = document.querySelector('#timer');
+let timerSecondsLeft = 900;
+let intervalID = '';
 socket.on('stateChange', state => {
     if (state) {
         startBtn.innerHTML = 'Stop';
+        timerSecondsLeft = 900;
+
+        intervalID = setInterval(() => {
+            timerSecondsLeft -= 1;
+            timer.innerHTML = `${pad(Math.floor(timerSecondsLeft / 60),2)}:${pad(timerSecondsLeft % 60,2)}`;
+
+            if (timerSecondsLeft <= 0) {
+                clearInterval(intervalID);
+            }
+        }, 1000);
     } else {
         startBtn.innerHTML = 'Start';
+        timerSecondsLeft = 900;
+        timer.innerHTML = `${pad(Math.floor(timerSecondsLeft / 60),2)}:${pad(timerSecondsLeft % 60,2)}`;
+
+        if (intervalID != '') {
+            clearInterval(intervalID);
+        }
     }
 })
 
