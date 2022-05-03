@@ -149,7 +149,7 @@ io.on("connection", socket => {
                     spyIndex = Math.floor(Math.random()*tempPlayers.length)
                 } while (!tempPlayers[spyIndex].joined);
 
-                io.to(tempPlayers[spyIndex].socketID).emit('assigmment', 'Spy', '');
+                io.to(tempPlayers[spyIndex].socketID).emit('assigmment', 'Spy', '<br>');
 
                 locationIndex = Math.floor(Math.random()*24);
                 let assignedRoles = [];

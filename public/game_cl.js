@@ -15,6 +15,37 @@ info.forEach(i => {
     });
 });
 
+let strikedPlayers = [];
+const strikePlayers = () => {
+    players = document.querySelectorAll('.player');
+    players.forEach(p => {
+        if(strikedPlayers.includes(p.id)) {
+            p.style.textDecoration ='line-through';
+            p.style.color = '#dcdcdc';
+        } else if(!p.playing) {
+            p.style.color = '#dcdcdc';
+            p.style.fontStyle = 'italic';
+        } else {
+            p.style.textDecoration ='none';
+            p.style.color = '#000';
+        }
+
+        p.addEventListener('mousedown', () => {
+            if(!p.playing) { return; }
+
+            if (strikedPlayers.includes(p.id)) {
+                strikedPlayers = strikedPlayers.filter(id => id != p.id);
+                p.style.textDecoration ='none';
+                p.style.color = '#000';
+            } else {
+                strikedPlayers.push(p.id);
+                p.style.textDecoration ='line-through';
+                p.style.color = '#dcdcdc';
+            }
+        });
+    });
+}
+
 const hideInfoBtn = document.querySelector('button#hide-info-btn');
 const locationText = document.querySelector('h1#location');
 const roleText = document.querySelector('h2#role');
@@ -79,6 +110,8 @@ socket.on('playerChange', players => {
         const playerBox = document.createElement("p");
         playerBox.classList.add("player");
         playerBox.innerHTML = player.username;
+        playerBox.id = player.socketID;
+        playerBox.playing = player.playing;
         if (!player.playing) {
             playerBox.style.color = '#dcdcdc';
             playerBox.style.fontStyle = 'italic';
@@ -91,6 +124,8 @@ socket.on('playerChange', players => {
         playerBox.classList.add("player");
         playersContainer.appendChild(playerBox);
     }
+
+    strikePlayers();
 });
 
 const pad = (num, size) => {return ('00000' + num).substr(-size); }
@@ -100,6 +135,9 @@ let timerSecondsLeft = 900;
 let intervalID = '';
 socket.on('stateChange', state => {
     if (state) {
+        strikedPlayers = [];
+        strikePlayers();
+        
         startBtn.innerHTML = 'Stop';
         timerSecondsLeft = 900;
 
