@@ -24,6 +24,10 @@ app.all('/rules', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/rules.html'));
 })
 
+app.all('/sitemap.xml', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/sitemap.xml'));
+})
+
 app.all('/:roomCode', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/room.html'));
 })
