@@ -24,7 +24,7 @@ app.all('/rules', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/rules.html'));
 })
 
-app.all('/sitemap.xml', (req, res) => {
+app.all('/sitemap', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/sitemap.xml'));
 })
 
