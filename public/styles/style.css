@@ -1,9 +1,10 @@
+@charset "UTF-8";
 @import url("https://rsms.me/inter/inter.css");
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Inter Var', 'Inter', 'Helvetica', sans-serif;
+  font-family: "Inter Var", "Inter", "Helvetica", sans-serif;
 }
 
 ::selection {
@@ -122,7 +123,7 @@ p a:hover {
 }
 
 p a::after {
-  content: "\2197";
+  content: "↗";
   display: inline-block;
   width: 1rem;
   height: 1rem;
@@ -287,7 +288,7 @@ section .form a:hover {
 }
 
 section .form a::after {
-  content: "\2192";
+  content: "→";
   display: inline-block;
   width: 1rem;
   height: 1rem;
@@ -306,16 +307,20 @@ header #start-btn {
   border-bottom: 1px solid black;
 }
 
+.centre-ad {
+  display: block;
+  margin: 1rem auto;
+}
+
 html {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 @supports (font-variation-settings: normal) {
   html {
-    font-family: 'Inter var', sans-serif;
+    font-family: "Inter var", sans-serif;
   }
 }
-
 @media only screen and (max-width: 630px) {
   body {
     width: 480px;
@@ -341,7 +346,6 @@ html {
     font-size: 0.8rem;
   }
 }
-
 @media only screen and (max-width: 515px) {
   body {
     width: 380px;
@@ -367,7 +371,6 @@ html {
     line-height: 110%;
   }
 }
-
 @media only screen and (max-width: 380px) {
   body {
     width: 310px;
@@ -381,4 +384,3 @@ html {
     font-size: 1rem;
   }
 }
-/*# sourceMappingURL=style.css.map */

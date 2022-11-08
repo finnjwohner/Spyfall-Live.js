@@ -306,6 +306,11 @@ header #start-btn {
     border-bottom: 1px solid black;
 }
 
+.centre-ad {
+    display: block;
+    margin: 1rem auto;
+}
+
 @import url('https://rsms.me/inter/inter.css');
 html { font-family: 'Inter', sans-serif; }
 @supports (font-variation-settings: normal) {
