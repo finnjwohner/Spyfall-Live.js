@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const http = require('http');
 const socketio = require('socket.io');
+const sanitizer = require('sanitizer');
 
 const app = express();
 const server = http.createServer(app);
@@ -79,12 +80,12 @@ io.on("connection", socket => {
             io.to(roomCode).emit("playerChange", tempPlayers);
             
             rooms.set(roomCode, tempPlayers);
-            console.log(`User (${socket.id}) joined room (${roomCode})`);
         }
     })
 
     socket.on('joinGame', (username, roomCode) => {
-        player.username = username;
+        sanitizedUsername = sanitizer.escape(username);
+        player.username = sanitizedUsername;
         player.joined = true;
         const tempPlayers = rooms.get(roomCode);
 
@@ -98,6 +99,7 @@ io.on("connection", socket => {
         socket.emit('stateSet', tempPlayers.started);
 
         rooms.set(roomCode, tempPlayers);
+        console.log(`User ${sanitizedUsername} (${socket.id}) joined room (${roomCode})`);
     })
 
     socket.on('disconnect', () => {
