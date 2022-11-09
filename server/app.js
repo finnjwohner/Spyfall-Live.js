@@ -91,6 +91,12 @@ io.on("connection", socket => {
         player.username = sanitizedUsername;
         if (player.username == '') { console.log('true'); }
         player.joined = true;
+
+        if (!rooms.has(roomCode)) {
+            socket.emit('unknownGameReject', roomCode);
+            return;
+        }
+        
         const tempPlayers = rooms.get(roomCode);
 
         for(i = 0; i < tempPlayers.length; i++) {

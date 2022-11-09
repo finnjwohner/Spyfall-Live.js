@@ -61,6 +61,14 @@ info.forEach(i => {
     });
 });
 
+const unstrikeInfo = () => {
+    info.forEach(i => {
+        i.striked = false;
+        i.style.textDecoration ='none';
+        i.style.color = '#000';
+    });
+}
+
 const strikePlayers = () => {
     players = document.querySelectorAll('.player');
     players.forEach(p => {
@@ -197,6 +205,7 @@ let intervalID = '';
 socket.on('stateChange', (state, leaderID) => {
     strikedPlayers = [];
     strikePlayers();
+    unstrikeInfo();
     if (state) {
         startBtn.innerHTML = 'Stop';
         timerSecondsLeft = 900;
