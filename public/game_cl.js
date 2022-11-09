@@ -82,10 +82,6 @@ const strikePlayers = () => {
             p.style.color = '#000';
         }
 
-        if (leader != '' && leader == p.id) {
-            p.classList.add('leader');
-        }
-
         p.addEventListener('mousedown', () => {
             if(!p.playing) { return; }
 
@@ -201,7 +197,7 @@ const pad = (num, size) => {return ('00000' + num).substr(-size); }
 
 let timerSecondsLeft = 900;
 let intervalID = '';
-socket.on('stateChange', (state, leaderID) => {
+socket.on('stateChange', (state) => {
     strikedPlayers = [];
     strikePlayers();
     unstrikeInfo();

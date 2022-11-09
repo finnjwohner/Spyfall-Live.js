@@ -159,7 +159,7 @@ io.on("connection", socket => {
 
             if (playingCount > 0) {
                 tempPlayers.started = true;
-                io.to(player.roomCode).emit("stateChange", true, socket.id);
+                io.to(player.roomCode).emit("stateChange", true);
 
                 let spyIndex = 0;
                 do {
