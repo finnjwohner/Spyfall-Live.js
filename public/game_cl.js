@@ -21,7 +21,6 @@ const timer = document.querySelector('#timer');
 
 let username = undefined;
 let roomCode = '';
-let leader = '';
 let strikedPlayers = [];
 
 nameInput.focus();
