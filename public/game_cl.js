@@ -1,6 +1,52 @@
 const socket = io();
+let localPlayer = undefined;
+
+const joinSection = document.querySelector('section.join-form');
+const joinBtn = document.querySelector('button#join-btn');
+const nameInput = document.querySelector('.join-form input');
+const validNameText = document.querySelector('p#valid-name-text');
 
 const info = document.querySelectorAll('.info-container p');
+
+const hideInfoBtn = document.querySelector('button#hide-info-btn');
+const locationText = document.querySelector('h1#location');
+const roleText = document.querySelector('h2#role');
+
+const errorForm = document.querySelector('section.error-form');
+
+const startBtn = document.querySelector('#start-btn');
+const playersContainer = document.querySelector('.players');
+
+const timer = document.querySelector('#timer');
+
+let username = undefined;
+let roomCode = '';
+let leader = '';
+let strikedPlayers = [];
+
+nameInput.focus();
+nameInput.select();
+
+const error = errorMsg => {
+    joinSection.style.display = 'none';
+    errorForm.style.display = 'flex';
+    document.querySelector('.error-form h2').innerHTML = errorMsg;
+}
+
+errorForm.addEventListener('mousedown', e => {
+    if (e.target !== errorForm) {return;}
+
+    window.location.replace('./');
+})
+
+try {
+    roomCode = window.location.pathname.match(/[0-9]{5}/)[0];
+    document.querySelector('#roomCode').innerHTML = 'Room: ' + roomCode;
+    socket.emit('requestJoinGame', roomCode);
+} catch(Exception) {
+    error('There was an error finding the roomcode in the URL');
+}
+
 info.forEach(i => {
     i.addEventListener('mousedown', () => {
         if (!i.striked) {
@@ -15,8 +61,6 @@ info.forEach(i => {
     });
 });
 
-let leader = '';
-let strikedPlayers = [];
 const strikePlayers = () => {
     players = document.querySelectorAll('.player');
     players.forEach(p => {
@@ -32,7 +76,6 @@ const strikePlayers = () => {
         }
 
         if (leader != '' && leader == p.id) {
-            console.log('adding leader');
             p.classList.add('leader');
         }
 
@@ -52,9 +95,6 @@ const strikePlayers = () => {
     });
 }
 
-const hideInfoBtn = document.querySelector('button#hide-info-btn');
-const locationText = document.querySelector('h1#location');
-const roleText = document.querySelector('h2#role');
 hideInfoBtn.addEventListener('mousedown', () => {
     let displayStyle = 'none';
     if (hideInfoBtn.infoHidden) {
@@ -69,35 +109,39 @@ hideInfoBtn.addEventListener('mousedown', () => {
     roleText.style.display = displayStyle;
 });
 
-const joinSection = document.querySelector('section.join-form');
-const joinBtn = document.querySelector('button#join-btn');
-const nameInput = document.querySelector('.join-form input');
-const validNameText = document.querySelector('p#valid-name-text');
-let username = '';
-const errorForm = document.querySelector('section.error-form');
-
-const error = errorMsg => {
-    joinSection.style.display = 'none';
-    errorForm.style.display = 'flex';
-    document.querySelector('.error-form h2').innerHTML = errorMsg;
+const enterGame = () => {
+    if (nameInput.value.trim() == '') {
+        validNameText.style.visibility = 'visible';
+    } else {
+        username = nameInput.value;
+        joinSection.style.display = 'none';
+        document.removeEventListener('keydown', handleKeyDown);
+        joinBtn.removeEventListener('mousedown', enterGame);
+        document.removeEventListener('keyup', handleKeyUp);
+        socket.emit('joinGame', username, roomCode);
+        document.addEventListener('keydown', e => {
+            if (e.key === ' ') {
+                socket.emit('startStopGame');
+            }
+        })
+    }
 }
 
-try {
-    const roomCode = window.location.pathname.match(/[0-9]{5}/)[0];
-    document.querySelector('#roomCode').innerHTML = 'Room: ' + roomCode;
-    socket.emit('requestJoinGame', roomCode);
-    joinBtn.addEventListener('mousedown', () => {
-        if (nameInput.value == '') {
-            validNameText.style.visibility = 'visible';
-        } else {
-            username = nameInput.value;
-            joinSection.style.display = 'none';
-            socket.emit('joinGame', username, roomCode);
-        }
-    })
-} catch(Exception) {
-    error('There was an error finding the roomcode in the URL');
+const handleKeyDown = e => {
+    if (e.key === 'Enter') {
+        enterGame(); 
+    }
 }
+
+const handleKeyUp = e => {
+    if (e.key === "Escape") {
+        window.location.replace('./');
+    }
+}
+
+joinBtn.addEventListener('mousedown', enterGame);
+document.addEventListener('keydown', handleKeyDown);
+document.addEventListener('keyup', handleKeyUp);
 
 socket.on('fullGameReject', () => {
     error('Error joining the game, the game was full')
@@ -107,8 +151,6 @@ socket.on('unknownGameReject', roomCode => {
     error(`No game could be found with the room code ${roomCode}`);
 })
 
-const startBtn = document.querySelector('#start-btn');
-const playersContainer = document.querySelector('.players');
 socket.on('playerChange', players => {
     playersContainer.textContent = '';
 
@@ -122,6 +164,10 @@ socket.on('playerChange', players => {
             playerBox.style.color = '#dcdcdc';
             playerBox.style.fontStyle = 'italic';
         }
+
+        if (localPlayer != undefined && localPlayer.socketID == player.socketID) {
+            playerBox.innerHTML += '<i class="fa-regular fa-user"></i>';
+        }
         playersContainer.appendChild(playerBox);
     })
 
@@ -134,7 +180,9 @@ socket.on('playerChange', players => {
     strikePlayers();
 });
 
-socket.on('stateSet', state => {
+socket.on('stateSet', (state, playerData) => {
+    localPlayer = playerData;
+
     if (state) {
         startBtn.innerHTML = 'Stop';
     } else {
@@ -144,14 +192,12 @@ socket.on('stateSet', state => {
 
 const pad = (num, size) => {return ('00000' + num).substr(-size); }
 
-const timer = document.querySelector('#timer');
 let timerSecondsLeft = 900;
 let intervalID = '';
 socket.on('stateChange', (state, leaderID) => {
+    strikedPlayers = [];
+    strikePlayers();
     if (state) {
-        leader = leaderID;
-        strikePlayers();
-
         startBtn.innerHTML = 'Stop';
         timerSecondsLeft = 900;
 

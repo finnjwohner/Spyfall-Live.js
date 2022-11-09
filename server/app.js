@@ -84,8 +84,12 @@ io.on("connection", socket => {
     })
 
     socket.on('joinGame', (username, roomCode) => {
-        sanitizedUsername = sanitizer.escape(username);
+        sanitizedUsername = sanitizer.escape(username).trim();
+        if (sanitizedUsername === '') {
+            sanitizedUsername = 'Dr. Noname';
+        }
         player.username = sanitizedUsername;
+        if (player.username == '') { console.log('true'); }
         player.joined = true;
         const tempPlayers = rooms.get(roomCode);
 
@@ -95,19 +99,19 @@ io.on("connection", socket => {
             }
         }
 
+        socket.emit('stateSet', tempPlayers.started, player);
         io.to(roomCode).emit("playerChange", tempPlayers);
-        socket.emit('stateSet', tempPlayers.started);
 
         rooms.set(roomCode, tempPlayers);
-        console.log(`User ${sanitizedUsername} (${socket.id}) joined room (${roomCode})`);
+        console.log(`User "${sanitizedUsername}" (${socket.id}) joined room (${roomCode})`);
     })
 
     socket.on('disconnect', () => {
         if (player.roomCode == '') { return; }
 
-        console.log(`User (${socket.id}) disconnected from room (${player.roomCode})`);
-
         socket.leave(player.roomCode);
+        console.log(`User "${player.username}" (${socket.id}) disconnected from room (${player.roomCode})`);
+        
         const tempPlayers = rooms.get(player.roomCode);
         for(i = 0; i < tempPlayers.length; i++) {
             if (tempPlayers[i].socketID == socket.id) {
