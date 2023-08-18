@@ -6,7 +6,7 @@ const validCodeText = document.querySelector('#valid-code-text');
 const codeJoinBtn = document.querySelector('#code-join-btn');
 const codeInput = document.querySelector('section .form input');
 const codeJoinForm = document.querySelector('section.code-join-form');
-const codeJoinFormBackBtn = document.querySelector('section.code-join-form a');
+const codeJoinFormBackBtn = document.querySelector('section.code-join-form button');
 
 startBtn.addEventListener('mousedown', () => {
     console.log('Sending request to web server to start a new game.')

@@ -278,7 +278,9 @@ section .form button:hover {
   background-color: #eee;
 }
 
-section .form a {
+section .form button#back-btn {
+  border: none;
+  width: fit-content;
   cursor: pointer;
   font-size: 1rem;
   margin-bottom: 1rem;
@@ -287,12 +289,13 @@ section .form a {
   transition: all 0.1s ease-in-out;
 }
 
-section .form a:hover {
+section .form button#back-btn:hover {
   color: #dcdcdc;
   border-color: #dcdcdc;
+  background: none;
 }
 
-section .form a::after {
+section .form button#back-btn::after {
   content: "→";
   display: inline-block;
   width: 1rem;
