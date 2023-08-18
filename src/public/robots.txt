@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /
+Allow: /sitemap
+Allow: /rules
+Allow: /index
+
+Sitemap: https://www.spyfall.live/sitemap

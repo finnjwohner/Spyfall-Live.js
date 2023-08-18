@@ -21,6 +21,14 @@ app.all('/', (req, res) => {
     res.sendFile(path.join(__dirnname, '../public/index.html'));
 })
 
+app.all('/index', (req, res) => {
+    res.sendFile(path.join(__dirnname, '../public/index.html'));
+})
+
+app.all('/robots.txt', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/robots.txt'));
+})
+
 app.all('/rules', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/rules.html'));
 })
