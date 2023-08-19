@@ -1,4 +1,13 @@
-const socket = io();
+try {
+    const socket = io();
+
+    socket.on('acceptStartGameRequest', newRoomCode => {
+        window.location.replace(`./${newRoomCode}`);
+    })
+}
+catch(error) {
+
+}
 
 const startBtn = document.querySelector('#start-btn');
 const joinBtn = document.querySelector('#join-btn');
@@ -11,11 +20,6 @@ const codeJoinFormBackBtn = document.querySelector('section.code-join-form butto
 startBtn.addEventListener('mousedown', () => {
     console.log('Sending request to web server to start a new game.')
     socket.emit('requestStartGame');
-})
-
-socket.on('acceptStartGameRequest', newRoomCode => {
-    console.log(`Start game request accepted by the server, starting a new game at room code ${newRoomCode}`);
-    window.location.replace(`./${newRoomCode}`);
 })
 
 codeJoinForm.style.display = 'none';

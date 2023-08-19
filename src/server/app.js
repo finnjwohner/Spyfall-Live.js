@@ -18,11 +18,11 @@ const rooms = new Map();
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.all('/', (req, res) => {
-    res.sendFile(path.join(__dirnname, '../public/index.html'));
+    res.sendFile(path.join(__dirname, '../public/index.html'));
 })
 
 app.all('/index', (req, res) => {
-    res.sendFile(path.join(__dirnname, '../public/index.html'));
+    res.sendFile(path.join(__dirname, '../public/index.html'));
 })
 
 app.all('/robots.txt', (req, res) => {
