@@ -1,5 +1,17 @@
 @charset "UTF-8";
 @import url("https://rsms.me/inter/inter.css");
+:root {
+  --textColor: #000;
+  --hoverColor: #eee;
+  --backgroundColor: #fff;
+  --greyColor: #858585;
+  --borderColor: #dcdcdc;
+  --highlightColor: #ffff00;
+  --hideInfoBtn: #a5a5a5;
+  --headerColor: black;
+  background-color: var(--backgroundColor);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -7,31 +19,40 @@
   font-family: "Inter Var", "Inter", "Helvetica", sans-serif;
 }
 
+::-moz-selection {
+  background: var(--highlightColor);
+}
+
 ::selection {
-  background: #ffff00;
+  background: var(--highlightColor);
 }
 
 html {
   text-align: center;
   overflow-x: hidden;
+  background-color: var(--backgroundColor);
 }
 
 body {
   margin: 0 auto;
   max-width: 95vw;
+  color: var(--textColor);
+  background-color: var(--backgroundColor);
 }
 
 button {
   outline: none;
   border: none;
   background: none;
-  appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   cursor: pointer;
 }
 
 h3 {
   margin-top: 1rem;
-  color: #a5a5a5;
+  color: var(--greyColor);
   font-weight: 400;
 }
 
@@ -42,7 +63,7 @@ body {
 
 a {
   text-decoration: none;
-  color: black;
+  color: var(--textColor);
   font-weight: 600;
 }
 
@@ -50,24 +71,44 @@ input, section .form button {
   font-size: 1rem;
   text-align: center;
   outline: none;
-  border: 1px solid #dcdcdc;
+  border: 1px solid var(--borderColor);
   background: none;
-  appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   padding: 0.5rem 0;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=tel] {
+  -webkit-appearance: textfield;
+          appearance: textfield;
+  -moz-appearance: textfield;
+}
+
 .header a {
-  background: #ffff00;
+  background: var(--highlightColor);
+  color: var(--headerColor);
   padding: 0.2rem 1rem;
   font-size: 4rem;
   font-weight: 900;
 }
 
 .header {
-  border-bottom: 1px solid #dcdcdc;
   padding: 1rem;
+  padding-bottom: 0.5rem;
   display: flex;
   justify-content: center;
+}
+
+.header-wrapper {
+  border-bottom: 1px solid var(--borderColor);
+  padding-bottom: 1rem;
 }
 
 .menu {
@@ -103,8 +144,8 @@ li {
   font-size: 0.9rem;
   width: var(--amount, 100%);
   padding: 1rem;
-  border: 1px solid #dcdcdc;
-  background: #fff;
+  border: 1px solid var(--borderColor);
+  background: var(--backgroundColor);
   display: inline-block;
 }
 
@@ -114,12 +155,13 @@ li {
 
 p a {
   font-weight: 400;
-  border-bottom: 3px solid #ffff00;
-  transition: 0.1s background-color ease-in-out;
+  border-bottom: 3px solid var(--highlightColor);
+  transition: 0.1s background-color ease-in-out, 0.1s color ease-in-out;
 }
 
 p a:hover {
-  background: #ffff00;
+  background: var(--highlightColor);
+  color: black;
   border: none;
 }
 
@@ -141,7 +183,7 @@ a.card {
 }
 
 a.card:hover {
-  background: #eee;
+  background: var(--hoverColor);
 }
 
 h2 {
@@ -152,19 +194,19 @@ h2 {
 }
 
 .menu button {
-  border: 1px solid #dcdcdc;
+  border: 1px solid var(--borderColor);
   width: 200px;
   height: 60px;
-  background: #fff;
+  background: var(--backgroundColor);
   font-size: 1rem;
   margin: 0.5rem;
   transition: 0.1s ease-in-out;
   cursor: pointer;
-  color: #000;
+  color: var(--textColor);
 }
 
 .menu button:hover {
-  background: #eee;
+  background: var(--hoverColor);
 }
 
 footer {
@@ -172,6 +214,13 @@ footer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+#dark-mode-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
 }
 
 header {
@@ -184,6 +233,7 @@ header .wrapper {
 }
 
 header #start-btn {
+  width: -moz-fit-content;
   width: fit-content;
   text-align: left;
 }
@@ -194,14 +244,14 @@ header #timer {
 
 button#hide-info-btn {
   margin-top: 1rem;
-  color: #a5a5a5;
+  color: var(--hideInfoBtn);
   font-style: italic;
   font-size: 1rem;
   transition: color 0.1s ease-in-out;
 }
 
 button#hide-info-btn:hover {
-  color: #eee;
+  color: var(--hoverColor);
 }
 
 h1#location {
@@ -222,7 +272,7 @@ div.info-container {
 
 div.info-container p {
   cursor: pointer;
-  border: 1px solid #dcdcdc;
+  border: 1px solid var(--borderColor);
   width: 9rem;
   height: 3rem;
   padding: 0.5rem 1rem;
@@ -231,6 +281,10 @@ div.info-container p {
   align-items: center;
   justify-content: center;
   transition: color 0.1s ease-in-out;
+}
+
+div.info-container p::-moz-selection {
+  background: none;
 }
 
 div.info-container p::selection {
@@ -256,9 +310,9 @@ section .form {
   align-items: center;
   display: flex;
   flex-direction: column;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  box-shadow: var(--isDarkTheme, rgba(100, 100, 111, 0.2)) 0px 7px 29px 0px;
   padding: 4rem 2rem;
-  background: #fff;
+  background: var(--backgroundColor);
   border-radius: 16px;
 }
 
@@ -270,28 +324,30 @@ section .form p {
 section .form input, section .form button {
   margin: 0.3rem 0;
   width: 100%;
+  color: var(--textColor);
   transition: background-color 0.1s ease-in-out;
 }
 
 section .form button:hover {
   cursor: pointer;
-  background-color: #eee;
+  background-color: var(--hoverColor);
 }
 
 section .form button#back-btn {
   border: none;
+  width: -moz-fit-content;
   width: fit-content;
   cursor: pointer;
   font-size: 1rem;
   margin-bottom: 1rem;
   font-weight: 300;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid var(--textColor);
   transition: all 0.1s ease-in-out;
 }
 
 section .form button#back-btn:hover {
-  color: #dcdcdc;
-  border-color: #dcdcdc;
+  color: var(--borderColor);
+  border-color: var(--borderColor);
   background: none;
 }
 
@@ -303,7 +359,12 @@ section .form button#back-btn::after {
 }
 
 section.error-form {
+  background-color: var(--backgroundColor);
   display: none;
+}
+
+header #start-btn::-moz-selection {
+  background: none;
 }
 
 header #start-btn::selection {
@@ -312,7 +373,7 @@ header #start-btn::selection {
 
 header #start-btn {
   cursor: pointer;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--textColor);
 }
 
 .centre-ad {
@@ -333,6 +394,9 @@ html {
 @media only screen and (max-width: 630px) {
   body {
     width: 480px;
+  }
+  #dark-mode-btn {
+    position: static;
   }
   .header a {
     font-size: 3rem;
@@ -392,4 +456,4 @@ html {
   h3 {
     font-size: 1rem;
   }
-}
+}/*# sourceMappingURL=style.css.map */

@@ -21,7 +21,7 @@ codeJoinForm.style.display = 'none';
 joinBtn.addEventListener('mousedown', () => {
     codeJoinForm.style.display = 'flex';
     codeInput.focus();
-    codeInput.select();
+    codeInput.click();
 });
 
 codeJoinFormBackBtn.addEventListener('mousedown', () => {

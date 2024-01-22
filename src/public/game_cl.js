@@ -50,10 +50,10 @@ info.forEach(i => {
     i.addEventListener('mousedown', () => {
         if (!i.striked) {
             i.style.textDecoration ='line-through';
-            i.style.color = '#dcdcdc';
+            i.style.color = 'var(--borderColor)';
         } else {
             i.style.textDecoration ='none';
-            i.style.color = '#000';
+            i.style.color = 'var(--textColor)';
         }
 
         i.striked = !i.striked;
@@ -64,7 +64,7 @@ const unstrikeInfo = () => {
     info.forEach(i => {
         i.striked = false;
         i.style.textDecoration ='none';
-        i.style.color = '#000';
+        i.style.color = 'var(--textColor)';
     });
 }
 
@@ -73,13 +73,13 @@ const strikePlayers = () => {
     players.forEach(p => {
         if(strikedPlayers.includes(p.id)) {
             p.style.textDecoration ='line-through';
-            p.style.color = '#dcdcdc';
+            p.style.color = 'var(--borderColor)';
         } else if(!p.playing) {
-            p.style.color = '#dcdcdc';
+            p.style.color = 'var(--borderColor)';
             p.style.fontStyle = 'italic';
         } else {
             p.style.textDecoration ='none';
-            p.style.color = '#000';
+            p.style.color = 'var(--textColor)';
         }
 
         p.addEventListener('mousedown', () => {
@@ -88,11 +88,11 @@ const strikePlayers = () => {
             if (strikedPlayers.includes(p.id)) {
                 strikedPlayers = strikedPlayers.filter(id => id != p.id);
                 p.style.textDecoration ='none';
-                p.style.color = '#000';
+                p.style.color = 'var(--textColor)';
             } else {
                 strikedPlayers.push(p.id);
                 p.style.textDecoration ='line-through';
-                p.style.color = '#dcdcdc';
+                p.style.color = 'var(--borderColor)';
             }
         });
     });
@@ -164,7 +164,7 @@ socket.on('playerChange', players => {
         playerBox.id = player.socketID;
         playerBox.playing = player.playing;
         if (!player.playing) {
-            playerBox.style.color = '#dcdcdc';
+            playerBox.style.color = 'var(--borderColor)';
             playerBox.style.fontStyle = 'italic';
         }
 

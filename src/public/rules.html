@@ -16,6 +16,7 @@
         <meta name="author" content="Finn Wohner">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="./styles/style.css" type="text/css" rel="stylesheet">
+        <script src="./darkModeToggle.js" defer></script>
         <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon16.ico">
         <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon32.ico">
         <link rel="icon" type="image/png" sizes="64x64" href="/img/favicon64.ico">
@@ -29,9 +30,13 @@
         <meta property="og:description" content="Play Spyfall with your friends online. Identify the spy or guess the location."/>
         <meta property="og:locale" content="en_GB" />
         <meta property="og:locale:alternate" content="en_US" />
+        <meta name="theme-color" content="#fff" />
     </head>
     <body>
-        <h1 class="header"><a href="./">Spyfall.Live</a></h1>
+        <div class="header-wrapper">
+            <h1 class="header"><a href="./">Spyfall.Live</a></h1>
+            <p id="dark-mode-btn">Light Mode</p>
+        </div>
         <div class="outer-cont">
             <div class="inner-cont">
                 <!-- I've never used CSS variables before so I thought it might be fun to try :) -->

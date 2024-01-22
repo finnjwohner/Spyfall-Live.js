@@ -46,7 +46,7 @@ io.on("connection", socket => {
         socketID: socket.id,
         username: 'Joining',
         roomCode: '',
-        playing: false,
+        playing: true,
         joined: false,
     }
 

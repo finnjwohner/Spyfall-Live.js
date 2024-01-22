@@ -23,6 +23,7 @@
         <link rel="icon" type="image/png" sizes="128x128" href="/img/favicon128.ico">
         <link rel="icon" type="image/png" sizes="256x256" href="/img/favicon256.ico">
         <script src="./game_cl.js" defer></script>
+        <script src="./darkModeToggle.js" defer></script>
         <script src="/socket.io/socket.io.js"></script>
         <meta property="og:title" content="Spyfall.Live" />
         <meta property="og:type" content="website" />
@@ -32,9 +33,10 @@
         <meta property="og:description" content="Play Spyfall with your friends online. Identify the spy or guess the location."/>
         <meta property="og:locale" content="en_GB" />
         <meta property="og:locale:alternate" content="en_US" />
+        <meta name="theme-color" content="#fff" />
     </head>
     <body>
-        <section class="error-form" style="background: #fff;">
+        <section class="error-form">
             <div class="form">
                 <h2>There was an error joining this game</h2>
                 <a href="./">Return to Menu</a>
@@ -49,7 +51,10 @@
                 <button id="join-btn">Join</button>
             </div>
         </section>
-        <h1 class="header"><a href="./">Spyfall.Live</a></h1>
+        <div class="header-wrapper">
+            <h1 class="header"><a href="./">Spyfall.Live</a></h1>
+            <p id="dark-mode-btn">Light Mode</p>
+        </div>
         <header>
             <div class="wrapper"><p id="start-btn">Start</p></div>
             <div class="wrapper"><p id="roomCode">Room Code</p></div>
