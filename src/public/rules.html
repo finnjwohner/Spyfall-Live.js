@@ -1,88 +1,155 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-B2L90BCR4Q"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            
-            gtag('config', 'G-B2L90BCR4Q');
-        </script>
-        <title>Spyfall.Live</title>
-        <meta charset="UTF-8">
-        <meta name="keywords" content="Spyfall, Spyfall.io, Spyfall.live">
-        <meta name="author" content="Finn Wohner">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="./styles/style.css" type="text/css" rel="stylesheet">
-        <script src="./darkModeToggle.js" defer></script>
-        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon16.ico">
-        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon32.ico">
-        <link rel="icon" type="image/png" sizes="64x64" href="/img/favicon64.ico">
-        <link rel="icon" type="image/png" sizes="128x128" href="/img/favicon128.ico">
-        <link rel="icon" type="image/png" sizes="256x256" href="/img/favicon256.ico">
-        <meta property="og:title" content="Spyfall.Live" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.spyfall.live/" />
-        <meta property="og:image" content="https://www.spyfall.live/img/opengraphimg.jpeg" />
-        <meta name="description" content="Play Spyfall with your friends online. Identify the spy or guess the location.">
-        <meta property="og:description" content="Play Spyfall with your friends online. Identify the spy or guess the location."/>
-        <meta property="og:locale" content="en_GB" />
-        <meta property="og:locale:alternate" content="en_US" />
-        <meta name="theme-color" content="#fff" />
-    </head>
-    <body>
-        <div class="header-wrapper">
-            <h1 class="header"><a href="./">Spyfall.Live</a></h1>
-            <p id="dark-mode-btn">Light Mode</p>
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-B2L90BCR4Q"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-B2L90BCR4Q");
+    </script>
+    <title>Spyfall.Live</title>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="Spyfall, Spyfall.io, Spyfall.live" />
+    <meta name="author" content="Finn Wohner" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./styles/style.css" type="text/css" rel="stylesheet" />
+    <script src="./darkModeToggle.js" defer></script>
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon16.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon32.ico" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/img/favicon64.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="128x128"
+      href="/img/favicon128.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="256x256"
+      href="/img/favicon256.ico"
+    />
+    <link href="https://www.spyfall.live/rules" rel="canonical" />
+    <meta property="og:title" content="Spyfall.Live" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.spyfall.live/" />
+    <meta
+      property="og:image"
+      content="https://www.spyfall.live/img/opengraphimg.jpeg"
+    />
+    <meta
+      name="description"
+      content="Play Spyfall with your friends online. Identify the spy or guess the location."
+    />
+    <meta
+      property="og:description"
+      content="Play Spyfall with your friends online. Identify the spy or guess the location."
+    />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta name="theme-color" content="#fff" />
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <h1 class="header"><a href="./">Spyfall.Live</a></h1>
+      <p id="dark-mode-btn">Light Mode</p>
+    </div>
+    <div class="outer-cont">
+      <div class="inner-cont">
+        <!-- I've never used CSS variables before so I thought it might be fun to try :) -->
+        <div class="card" style="--amount: calc(50% - 0.5rem)">
+          <h2>Requirements</h2>
+          <ul>
+            <li>4 to 10 Players</li>
+            <li>
+              Ability to <strong>communicate</strong> with every player
+              (in-person or online)
+            </li>
+            <li>
+              Every player has <strong>Spyfall.Live</strong> open on a browser
+            </li>
+          </ul>
         </div>
-        <div class="outer-cont">
-            <div class="inner-cont">
-                <!-- I've never used CSS variables before so I thought it might be fun to try :) -->
-                <div class="card" style="--amount: calc(50% - 0.5rem);">
-                    <h2>Requirements</h2>
-                    <ul>
-                        <li>4 to 10 Players</li>
-                        <li>Ability to <strong>communicate</strong> with every player (in-person or online)</li>
-                        <li>Every player has <strong>Spyfall.Live</strong> open on a browser</li>
-                    </ul>
-                </div>
-                <div class="card" style="--amount: calc(50% - 0.5rem);">
-                    <h2>Goal</h2>
-                    <ul>
-                        <li><strong>Spy: </strong>Guess the location from others' questions and answers</li>
-                        <li><strong>Others: </strong>Figure out who amongst them is the spy</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card">
-                <h2>How to play a round</h2>
-                <ol>
-                    <li><strong>Location: </strong>When the round starts, each player except for the spy is told the location, and is given a role there. The spy does not know the location.</li>
-                    <li><strong>Question: </strong>The player who started the round begins by questioning a player of their choice about the location, for example <i>"How was your commute here today?</i></li>
-                    <li><strong>Answer: </strong>The questioned player must answer. No follow up questions are allowed. After they answer they get to question a different player. This continues until the round is over.</li>
-                    <li><strong>No Retaliation: </strong>If someone just finished asking you a question, you can not immediatlely ask them a question back.</li>
-                </ol>
-            </div>
-            <div class="inner-cont">
-                <div class="card" style="--amount: calc(65% - 0.5rem);">
-                    <h2>Guessing the Spy</h2>
-                    <ul>
-                        <li><strong>Vote: </strong>At any time, a player can put up someone they suspect to be a spy to a vote.</li>
-                        <li><strong>Unanimous: </strong>For a vote to be successful, everyone must be in agreement (besides the suspect).</li>
-                        <li><strong>One Vote: </strong>Each player may only initate a vote once per round. Use it wisely.</li>
-                        <li><strong>Spy Revealed: </strong>After the vote, the player must reveal if they were the spy. The round ends.</li>
-                    </ul>
-                </div>
-                <div class="card" style="--amount: calc(35% - 0.5rem);">
-                    <h2>Guessing the location</h2>
-                    <ul>
-                        <li>The spy can choose to reveal themselves and guess the location at any point in the game. The round immediatlely ends.</li>
-                    </ul>
-                </div>
-            </div>
-            <a href="./" class="card" style="margin-top: 1rem;">Got it, take me back to the menu!</a>
+        <div class="card" style="--amount: calc(50% - 0.5rem)">
+          <h2>Goal</h2>
+          <ul>
+            <li>
+              <strong>Spy: </strong>Guess the location from others' questions
+              and answers
+            </li>
+            <li>
+              <strong>Others: </strong>Figure out who amongst them is the spy
+            </li>
+          </ul>
         </div>
-    </body>
+      </div>
+      <div class="card">
+        <h2>How to play a round</h2>
+        <ol>
+          <li>
+            <strong>Location: </strong>When the round starts, each player except
+            for the spy is told the location, and is given a role there. The spy
+            does not know the location.
+          </li>
+          <li>
+            <strong>Question: </strong>The player who started the round begins
+            by questioning a player of their choice about the location, for
+            example <i>"How was your commute here today?</i>
+          </li>
+          <li>
+            <strong>Answer: </strong>The questioned player must answer. No
+            follow up questions are allowed. After they answer they get to
+            question a different player. This continues until the round is over.
+          </li>
+          <li>
+            <strong>No Retaliation: </strong>If someone just finished asking you
+            a question, you can not immediatlely ask them a question back.
+          </li>
+        </ol>
+      </div>
+      <div class="inner-cont">
+        <div class="card" style="--amount: calc(65% - 0.5rem)">
+          <h2>Guessing the Spy</h2>
+          <ul>
+            <li>
+              <strong>Vote: </strong>At any time, a player can put up someone
+              they suspect to be a spy to a vote.
+            </li>
+            <li>
+              <strong>Unanimous: </strong>For a vote to be successful, everyone
+              must be in agreement (besides the suspect).
+            </li>
+            <li>
+              <strong>One Vote: </strong>Each player may only initate a vote
+              once per round. Use it wisely.
+            </li>
+            <li>
+              <strong>Spy Revealed: </strong>After the vote, the player must
+              reveal if they were the spy. The round ends.
+            </li>
+          </ul>
+        </div>
+        <div class="card" style="--amount: calc(35% - 0.5rem)">
+          <h2>Guessing the location</h2>
+          <ul>
+            <li>
+              The spy can choose to reveal themselves and guess the location at
+              any point in the game. The round immediatlely ends.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <a href="./" class="card" style="margin-top: 1rem"
+        >Got it, take me back to the menu!</a
+      >
+    </div>
+  </body>
 </html>

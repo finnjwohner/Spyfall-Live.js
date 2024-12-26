@@ -1,62 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <!-- Google tag (gtag.js) -->
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-            gtag('config', 'G-B2L90BCR4Q');
-        </script>
-        <title>Spyfall.Live</title>
-        <meta charset="UTF-8">
-        <meta name="keywords" content="Spyfall, Spyfall.io, Spyfall.live">
-        <meta name="author" content="Finn Wohner">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="./styles/style.css" type="text/css" rel="stylesheet">
-        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon16.ico">
-        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon32.ico">
-        <link rel="icon" type="image/png" sizes="64x64" href="/img/favicon64.ico">
-        <link rel="icon" type="image/png" sizes="128x128" href="/img/favicon128.ico">
-        <link rel="icon" type="image/png" sizes="256x256" href="/img/favicon256.ico">
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="./menu_cl.js" defer></script>
-        <script src="./darkModeToggle.js" defer></script>
-        <meta property="og:title" content="Spyfall.Live" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.spyfall.live/" />
-        <meta property="og:image" content="https://www.spyfall.live/img/opengraphimg.jpeg" />
-        <meta name="description" content="Play Spyfall with your friends online. Identify the spy or guess the location.">
-        <meta property="og:description" content="Play Spyfall with your friends online. Identify the spy or guess the location."/>
-        <meta property="og:locale" content="en_GB" />
-        <meta property="og:locale:alternate" content="en_US" />
-        <meta name="theme-color" content="#fff" />
-    </head>
-    <body>
-        <section class="code-join-form" style="display: none;">
-            <div class="form">
-                <h2>Enter the room code to join</h2>
-                <button id="back-btn">Go Back</button>
-                <p id="valid-code-text">Please enter a valid code</p>
-                <input type="tel" name="roomcode" placeholder="Room Code" maxlength="5" min="10000" max="99999" autocomplete="off">
-                <button id="code-join-btn">Join</button>
-            </div>
-        </section>
-        <div class="header-wrapper">
-            <h1 class="header"><a href="./">Spyfall.Live</a></h1>
-            <p id="dark-mode-btn">Light Mode</p>
-        </div>
-        <div class="menu">
-            <button id="start-btn">Start Game</button>
-            <button id="join-btn">Join Game</button>
-        </div>
-        <footer>
-            <a href="./rules">How To Play</a>
-            <p><a href="https://boardgamegeek.com/boardgame/166384/spyfall" target="#">Spyfall</a> is a game originally designed by <a href="https://boardgamegeek.com/boardgamedesigner/78199/alexandr-ushan" target="#">Alexandr Ushan</a>,
-                 and published by Hobby World in 2014.
-            </p>
-            <p>This website was made by <a href="https://www.linkedin.com/in/finnjwohner/" target="#">Finn Wohner</a>.</p>
-        </footer>
-    </body>
+      gtag("config", "G-B2L90BCR4Q");
+    </script>
+    <title>Spyfall.Live</title>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="Spyfall, Spyfall.io, Spyfall.live" />
+    <meta name="author" content="Finn Wohner" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./styles/style.css" type="text/css" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon16.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon32.ico" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/img/favicon64.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="128x128"
+      href="/img/favicon128.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="256x256"
+      href="/img/favicon256.ico"
+    />
+    <link href="https://www.spyfall.live/" rel="canonical" />
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./menu_cl.js" defer></script>
+    <script src="./darkModeToggle.js" defer></script>
+    <meta property="og:title" content="Spyfall.Live" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.spyfall.live/" />
+    <meta
+      property="og:image"
+      content="https://www.spyfall.live/img/opengraphimg.jpeg"
+    />
+    <meta
+      name="description"
+      content="Play Spyfall with your friends online. Identify the spy or guess the location."
+    />
+    <meta
+      property="og:description"
+      content="Play Spyfall with your friends online. Identify the spy or guess the location."
+    />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta name="theme-color" content="#fff" />
+  </head>
+  <body>
+    <section class="code-join-form" style="display: none">
+      <div class="form">
+        <h2>Enter the room code to join</h2>
+        <button id="back-btn">Go Back</button>
+        <p id="valid-code-text">Please enter a valid code</p>
+        <input
+          type="tel"
+          name="roomcode"
+          placeholder="Room Code"
+          maxlength="5"
+          min="10000"
+          max="99999"
+          autocomplete="off"
+        />
+        <button id="code-join-btn">Join</button>
+      </div>
+    </section>
+    <div class="header-wrapper">
+      <h1 class="header"><a href="./">Spyfall.Live</a></h1>
+      <p id="dark-mode-btn">Light Mode</p>
+    </div>
+    <div class="menu">
+      <button id="start-btn">Start Game</button>
+      <button id="join-btn">Join Game</button>
+    </div>
+    <footer>
+      <a href="./rules">How To Play</a>
+      <p>
+        <a href="https://boardgamegeek.com/boardgame/166384/spyfall" target="#"
+          >Spyfall</a
+        >
+        is a game originally designed by
+        <a
+          href="https://boardgamegeek.com/boardgamedesigner/78199/alexandr-ushan"
+          target="#"
+          >Alexandr Ushan</a
+        >, and published by Hobby World in 2014.
+      </p>
+      <p>
+        This website was made by
+        <a href="https://www.linkedin.com/in/finnjwohner/" target="#"
+          >Finn Wohner</a
+        >.
+      </p>
+    </footer>
+  </body>
 </html>

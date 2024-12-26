@@ -1,105 +1,139 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <script src="https://kit.fontawesome.com/422f6c713c.js" crossorigin="anonymous"></script>
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-B2L90BCR4Q"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            
-            gtag('config', 'G-B2L90BCR4Q');
-        </script>
-        <title>Spyfall.Live</title>
-        <meta charset="UTF-8">
-        <meta name="keywords" content="Spyfall, Spyfall.io, Spyfall.live">
-        <meta name="author" content="Finn Wohner">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="./styles/style.css" type="text/css" rel="stylesheet">
-        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon16.ico">
-        <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon32.ico">
-        <link rel="icon" type="image/png" sizes="64x64" href="/img/favicon64.ico">
-        <link rel="icon" type="image/png" sizes="128x128" href="/img/favicon128.ico">
-        <link rel="icon" type="image/png" sizes="256x256" href="/img/favicon256.ico">
-        <script src="./game_cl.js" defer></script>
-        <script src="./darkModeToggle.js" defer></script>
-        <script src="/socket.io/socket.io.js"></script>
-        <meta property="og:title" content="Spyfall.Live" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.spyfall.live/" />
-        <meta property="og:image" content="https://www.spyfall.live/img/opengraphimg.jpeg" />
-        <meta name="description" content="Play Spyfall with your friends online. Identify the spy or guess the location.">
-        <meta property="og:description" content="Play Spyfall with your friends online. Identify the spy or guess the location."/>
-        <meta property="og:locale" content="en_GB" />
-        <meta property="og:locale:alternate" content="en_US" />
-        <meta name="theme-color" content="#fff" />
-    </head>
-    <body>
-        <section class="error-form">
-            <div class="form">
-                <h2>There was an error joining this game</h2>
-                <a href="./">Return to Menu</a>
-            </div>
-        </section>
-        <section class="join-form">
-            <div class="form">
-                <h2>Set your name to join the game</h2>
-                <a href="./">Return to Menu</a>
-                <p id="valid-name-text">Please enter a valid name</p>
-                <input type="text" name="theusername" placeholder="Username" maxlength="16" autocomplete="off">
-                <button id="join-btn">Join</button>
-            </div>
-        </section>
-        <div class="header-wrapper">
-            <h1 class="header"><a href="./">Spyfall.Live</a></h1>
-            <p id="dark-mode-btn">Light Mode</p>
-        </div>
-        <header>
-            <div class="wrapper"><p id="start-btn">Start</p></div>
-            <div class="wrapper"><p id="roomCode">Room Code</p></div>
-            <div class="wrapper"><p id='timer'>15:00</p></div>
-        </header>
-        <button id="hide-info-btn">Hide Location & Role</button>
-        <h1 id="location">Location</h1>
-        <h2 id="role">Role</h2>
-        <h3>Player List</h3>
-        <div class="info-container players">
-            <p class="player"></p>
-            <p class="player"></p>
-            <p class="player"></p>
-            <p class="player"></p>
-            <p class="player"></p>
-            <p class="player"></p>
-            <p class="player"></p>
-            <p class="player"></p>
-        </div>
-        <h3>Location List</h3>
-        <div class="info-container">
-            <p>Aeroplane</p>
-            <p>Bank</p>
-            <p>Beach</p>
-            <p>Theatre</p>
-            <p>Casino</p>
-            <p>Cathedral</p>
-            <p>Circus Tent</p>
-            <p>Corporate Party</p>
-            <p>Crusader Army</p>
-            <p>Wellness Centre</p>
-            <p>Consulate</p>
-            <p>Hospital</p>
-            <p>Hotel</p>
-            <p>Army Base</p>
-            <p>Film Studio</p>
-            <p>Ocean Liner</p>
-            <p>Passenger Train</p>
-            <p>Pirate Ship</p>
-            <p>Polar Station</p>
-            <p>Police Station</p>
-            <p>Restaurant</p>
-            <p>School</p>
-            <p>Service Station</p>
-            <p>Space Station</p>
-        </div>
-    </body>
+  <head>
+    <script
+      src="https://kit.fontawesome.com/422f6c713c.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-B2L90BCR4Q"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-B2L90BCR4Q");
+    </script>
+    <title>Spyfall.Live</title>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="Spyfall, Spyfall.io, Spyfall.live" />
+    <meta name="author" content="Finn Wohner" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./styles/style.css" type="text/css" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon16.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon32.ico" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/img/favicon64.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="128x128"
+      href="/img/favicon128.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="256x256"
+      href="/img/favicon256.ico"
+    />
+    <link href="https://www.spyfall.live/" rel="canonical" />
+    <script src="./game_cl.js" defer></script>
+    <script src="./darkModeToggle.js" defer></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <meta property="og:title" content="Spyfall.Live" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.spyfall.live/" />
+    <meta
+      property="og:image"
+      content="https://www.spyfall.live/img/opengraphimg.jpeg"
+    />
+    <meta
+      name="description"
+      content="Play Spyfall with your friends online. Identify the spy or guess the location."
+    />
+    <meta
+      property="og:description"
+      content="Play Spyfall with your friends online. Identify the spy or guess the location."
+    />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta name="theme-color" content="#fff" />
+  </head>
+  <body>
+    <section class="error-form">
+      <div class="form">
+        <h2>There was an error joining this game</h2>
+        <a href="./">Return to Menu</a>
+      </div>
+    </section>
+    <section class="join-form">
+      <div class="form">
+        <h2>Set your name to join the game</h2>
+        <a href="./">Return to Menu</a>
+        <p id="valid-name-text">Please enter a valid name</p>
+        <input
+          type="text"
+          name="theusername"
+          placeholder="Username"
+          maxlength="16"
+          autocomplete="off"
+        />
+        <button id="join-btn">Join</button>
+      </div>
+    </section>
+    <div class="header-wrapper">
+      <h1 class="header"><a href="./">Spyfall.Live</a></h1>
+      <p id="dark-mode-btn">Light Mode</p>
+    </div>
+    <header>
+      <div class="wrapper"><p id="start-btn">Start</p></div>
+      <div class="wrapper"><p id="roomCode">Room Code</p></div>
+      <div class="wrapper"><p id="timer">15:00</p></div>
+    </header>
+    <button id="hide-info-btn">Hide Location & Role</button>
+    <h1 id="location">Location</h1>
+    <h2 id="role">Role</h2>
+    <h3>Player List</h3>
+    <div class="info-container players">
+      <p class="player"></p>
+      <p class="player"></p>
+      <p class="player"></p>
+      <p class="player"></p>
+      <p class="player"></p>
+      <p class="player"></p>
+      <p class="player"></p>
+      <p class="player"></p>
+    </div>
+    <h3>Location List</h3>
+    <div class="info-container">
+      <p>Aeroplane</p>
+      <p>Bank</p>
+      <p>Beach</p>
+      <p>Theatre</p>
+      <p>Casino</p>
+      <p>Cathedral</p>
+      <p>Circus Tent</p>
+      <p>Corporate Party</p>
+      <p>Crusader Army</p>
+      <p>Wellness Centre</p>
+      <p>Consulate</p>
+      <p>Hospital</p>
+      <p>Hotel</p>
+      <p>Army Base</p>
+      <p>Film Studio</p>
+      <p>Ocean Liner</p>
+      <p>Passenger Train</p>
+      <p>Pirate Ship</p>
+      <p>Polar Station</p>
+      <p>Police Station</p>
+      <p>Restaurant</p>
+      <p>School</p>
+      <p>Service Station</p>
+      <p>Space Station</p>
+    </div>
+  </body>
 </html>
