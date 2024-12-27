@@ -17,6 +17,8 @@ const io = new Server(server);
 // Initialise the rooms
 const rooms = new Map();
 
+const disconnectedPlayerTimeoutIDs = new Map();
+
 // Set directory for public static files
 app.use(express.static(path.join(__dirname, "../public")));
 
@@ -58,9 +60,6 @@ io.on("connection", (socket) => {
   };
 
   const hideTab = () => {
-    console.log(
-      `User ${player.username} (${socket.id}) hid tab in room (${player.roomCode})`
-    );
     player.disconnected = true;
     const players = rooms.get(player.roomCode);
     io.to(player.roomCode).emit("playerChange", stripPlayerData(players));
@@ -69,17 +68,18 @@ io.on("connection", (socket) => {
   socket.on("hideTab", hideTab);
 
   socket.on("requestRejoin", (clientPlayerData) => {
+    if (!rooms.has(clientPlayerData.roomCode)) return;
+
     console.log(
       `User ${clientPlayerData.username} (${socket.id}) requested rejoin for room (${clientPlayerData.roomCode})`
     );
+
     if (clientPlayerData.socketID != player.socketID) {
       const filteredPlayers = rooms
         .get(clientPlayerData.roomCode)
         .filter((p) => p.socketID == clientPlayerData.socketID);
 
-      if (!filteredPlayers.length) {
-        return;
-      }
+      if (!filteredPlayers.length) return;
 
       player = filteredPlayers[0];
 
@@ -92,6 +92,14 @@ io.on("connection", (socket) => {
     socket.emit("stateSet", players.state, player);
     socket.emit("assignment", player.location, player.role);
     io.to(player.roomCode).emit("playerChange", stripPlayerData(players));
+
+    if (disconnectedPlayerTimeoutIDs.has(clientPlayerData.socketID)) {
+      console.log(
+        `Clearing disconnect timer (${clientPlayerData.socketID}) for user "${player.username}" (${socket.id}) in room (${player.roomCode})`
+      );
+      clearTimeout(disconnectedPlayerTimeoutIDs.get(clientPlayerData.socketID));
+      disconnectedPlayerTimeoutIDs.delete(clientPlayerData.socketID);
+    }
   });
 
   // User clicked the start new game button
@@ -166,22 +174,28 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    if (player.roomCode == "") {
-      return;
-    }
-
-    //socket.leave(player.roomCode);
-    console.log(
-      `User "${player.username}" (${socket.id}) disconnected from room (${player.roomCode})`
-    );
+    if (!player.roomCode) return;
 
     if (player.isMobile && !player.disconnected) {
       hideTab();
     }
 
     if (player.disconnected) {
+      const timeoutID = setTimeout(disconnectPlayer, 20 * 60 * 1000);
+      disconnectedPlayerTimeoutIDs.set(socket.id, timeoutID);
+      console.log(
+        `Set disconnect timer (${socket.id}) for user "${player.username}" (${socket.id}) in room (${player.roomCode})`
+      );
       return;
+    } else {
+      disconnectPlayer();
     }
+  });
+
+  const disconnectPlayer = () => {
+    console.log(
+      `User "${player.username}" (${socket.id}) disconnected from room (${player.roomCode})`
+    );
 
     let tempPlayers = rooms.get(player.roomCode);
     const state = tempPlayers.state;
@@ -198,7 +212,7 @@ io.on("connection", (socket) => {
       console.log(`Clearing Room (${player.roomCode})`);
       rooms.delete(player.roomCode);
     }
-  });
+  };
 
   // Start a game:
   // 1. Set every player that isn't currently joining to playing
@@ -269,6 +283,8 @@ io.on("connection", (socket) => {
 });
 
 const stripPlayerData = (players) => {
+  if (!players) return;
+
   const state = players.state ?? undefined;
   const strippedPlayers = players.map((player) => {
     return {
