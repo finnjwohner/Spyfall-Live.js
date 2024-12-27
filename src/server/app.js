@@ -7,6 +7,7 @@ import path from "path";
 import { shuffleArray } from "./util.js";
 import { locations } from "./locations_sv.js";
 import { roles } from "./roles_sv.js";
+import mobile from "is-mobile";
 
 const __dirname = import.meta.dirname;
 const app = express();
@@ -44,20 +45,53 @@ app.all("/:roomCode", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  const player = {
+  let player = {
     socketID: socket.id,
     username: "Joining",
     roomCode: "",
+    isMobile: mobile({ ua: socket.handshake.headers["user-agent"] }),
+    disconnected: false,
     playing: false,
     joined: false,
+    location: "Location",
+    role: "Role",
   };
 
-  socket.on("hiddenTab", () => {
-    console.log(`player ${player.username} hid tab!`);
-  });
+  const hideTab = () => {
+    console.log(
+      `User ${player.username} (${socket.id}) hid tab in room (${player.roomCode})`
+    );
+    player.disconnected = true;
+    const players = rooms.get(player.roomCode);
+    io.to(player.roomCode).emit("playerChange", stripPlayerData(players));
+  };
 
-  socket.on("visibleTab", () => {
-    console.log(`player ${player.username} hid tab!`);
+  socket.on("hideTab", hideTab);
+
+  socket.on("requestRejoin", (clientPlayerData) => {
+    console.log(
+      `User ${clientPlayerData.username} (${socket.id}) requested rejoin for room (${clientPlayerData.roomCode})`
+    );
+    if (clientPlayerData.socketID != player.socketID) {
+      const filteredPlayers = rooms
+        .get(clientPlayerData.roomCode)
+        .filter((p) => p.socketID == clientPlayerData.socketID);
+
+      if (!filteredPlayers.length) {
+        return;
+      }
+
+      player = filteredPlayers[0];
+
+      player.socketID = socket.id;
+      socket.join(player.roomCode);
+    }
+
+    player.disconnected = false;
+    const players = rooms.get(player.roomCode);
+    socket.emit("stateSet", players.state, player);
+    socket.emit("assignment", player.location, player.role);
+    io.to(player.roomCode).emit("playerChange", stripPlayerData(players));
   });
 
   // User clicked the start new game button
@@ -101,7 +135,7 @@ io.on("connection", (socket) => {
       tempPlayers.push(player);
 
       socket.emit("stateSet", tempPlayers.state, player);
-      io.to(roomCode).emit("playerChange", tempPlayers);
+      io.to(roomCode).emit("playerChange", stripPlayerData(tempPlayers));
 
       rooms.set(roomCode, tempPlayers);
     }
@@ -123,7 +157,7 @@ io.on("connection", (socket) => {
     const tempPlayers = rooms.get(roomCode);
 
     socket.emit("stateSet", tempPlayers.state, player);
-    io.to(roomCode).emit("playerChange", tempPlayers);
+    io.to(roomCode).emit("playerChange", stripPlayerData(tempPlayers));
 
     rooms.set(roomCode, tempPlayers);
     console.log(
@@ -136,10 +170,18 @@ io.on("connection", (socket) => {
       return;
     }
 
-    socket.leave(player.roomCode);
+    //socket.leave(player.roomCode);
     console.log(
       `User "${player.username}" (${socket.id}) disconnected from room (${player.roomCode})`
     );
+
+    if (player.isMobile && !player.disconnected) {
+      hideTab();
+    }
+
+    if (player.disconnected) {
+      return;
+    }
 
     let tempPlayers = rooms.get(player.roomCode);
     const state = tempPlayers.state;
@@ -150,7 +192,7 @@ io.on("connection", (socket) => {
     tempPlayers.state = state;
 
     if (tempPlayers.length > 0) {
-      io.to(player.roomCode).emit("playerChange", tempPlayers);
+      io.to(player.roomCode).emit("playerChange", stripPlayerData(tempPlayers));
       rooms.set(player.roomCode, tempPlayers);
     } else {
       console.log(`Clearing Room (${player.roomCode})`);
@@ -173,27 +215,37 @@ io.on("connection", (socket) => {
       tempPlayers.state.started = false;
       tempPlayers.state.timeStarted = null;
 
-      io.to(player.roomCode).emit("stateChange", tempPlayers.state);
-      io.to(player.roomCode).emit("assigmment", "Location", "Role");
+      tempPlayers.forEach((player) => {
+        io.to(player.socketID).emit("stateSet", tempPlayers.state, player);
+      });
+      io.to(player.roomCode).emit("assignment", "Location", "Role");
+      tempPlayers.forEach((player) => {
+        player.location = "Location";
+        player.role = "Role";
+      });
     } else {
-      const activePlayers = tempPlayers
-        .filter((player) => player.joined)
-        .map((player) => {
-          player.playing = true;
-          return player;
-        });
+      const activePlayers = [];
+      tempPlayers.forEach((player) => {
+        const isPlaying = player.joined && !player.disconnected;
+        player.playing = isPlaying;
+        if (isPlaying) activePlayers.push(player);
+      });
 
-      if (activePlayers.length == 0) return;
+      if (!activePlayers.length) return;
 
       tempPlayers.state.started = true;
       tempPlayers.state.timeStarted = Math.floor(Date.now() / 1000);
 
-      io.to(player.roomCode).emit("stateChange", tempPlayers.state);
+      tempPlayers.forEach((player) => {
+        io.to(player.socketID).emit("stateSet", tempPlayers.state, player);
+      });
 
       const spyPlayer =
         activePlayers[Math.floor(Math.random() * activePlayers.length)];
 
-      io.to(spyPlayer.socketID).emit("assigmment", "Spy", "<br>");
+      spyPlayer.location = "Spy";
+      spyPlayer.role = "<br>";
+      io.to(spyPlayer.socketID).emit("assignment", "Spy", "<br>");
 
       const locationIndex = Math.floor(Math.random() * locations.length);
       const rolesClone = [...roles[locationIndex]];
@@ -202,18 +254,34 @@ io.on("connection", (socket) => {
       activePlayers
         .filter((player) => player.socketID != spyPlayer.socketID)
         .forEach((player, idx) => {
+          player.location = locations[locationIndex];
+          player.role = rolesClone[idx];
           io.to(player.socketID).emit(
-            "assigmment",
+            "assignment",
             locations[locationIndex],
             rolesClone[idx]
           );
         });
-
-      io.to(player.roomCode).emit("playerChange", tempPlayers);
+      io.to(player.roomCode).emit("playerChange", stripPlayerData(tempPlayers));
       rooms.set(player.roomCode, tempPlayers);
     }
   });
 });
+
+const stripPlayerData = (players) => {
+  const state = players.state ?? undefined;
+  const strippedPlayers = players.map((player) => {
+    return {
+      username: player.username,
+      disconnected: player.disconnected,
+      socketID: player.socketID,
+      playing: player.playing,
+    };
+  });
+
+  strippedPlayers.state = state;
+  return strippedPlayers;
+};
 
 const port = process.env.PORT || 3000;
 server.listen(port, () => {

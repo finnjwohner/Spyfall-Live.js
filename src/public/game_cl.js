@@ -164,7 +164,9 @@ socket.on("playerChange", (players) => {
   players.forEach((player) => {
     const playerBox = document.createElement("p");
     playerBox.classList.add("player");
-    playerBox.innerHTML = player.username;
+    playerBox.innerHTML = player.disconnected
+      ? player.username + ' <i class="fa-regular fa-eye-slash"></i>'
+      : player.username;
     playerBox.id = player.socketID;
     playerBox.playing = player.playing;
     if (!player.playing) {
@@ -172,7 +174,7 @@ socket.on("playerChange", (players) => {
       playerBox.style.fontStyle = "italic";
     }
 
-    if (localPlayer != undefined && localPlayer.socketID == player.socketID) {
+    if (localPlayer && localPlayer.socketID == player.socketID) {
       playerBox.innerHTML += '<i class="fa-regular fa-user"></i>';
     }
     playersContainer.appendChild(playerBox);
@@ -187,7 +189,8 @@ socket.on("playerChange", (players) => {
   strikePlayers();
 });
 
-let intervalID = "";
+let intervalID = undefined;
+let currentTimeStarted = undefined;
 
 const getTimerSecondsLeft = (timeStarted) =>
   900 - (Math.floor(Date.now() / 1000) - timeStarted);
@@ -203,35 +206,32 @@ const setTimerInterval = (state) => {
   let timerSecondsLeft = getTimerSecondsLeft(state.timeStarted);
   setTimerText(timerSecondsLeft);
 
+  if (intervalID) {
+    clearInterval(intervalID);
+  }
+
   intervalID = setInterval(() => {
     timerSecondsLeft = getTimerSecondsLeft(state.timeStarted);
     setTimerText(timerSecondsLeft);
 
     if (timerSecondsLeft <= 0) {
       clearInterval(intervalID);
+      intervalID = undefined;
     }
   }, 1000);
 };
 
 socket.on("stateSet", (state, playerData) => {
-  localPlayer = playerData;
+  if (state.timeStarted != currentTimeStarted) {
+    strikedPlayers = [];
 
-  if (state.started) {
-    startBtn.innerHTML = "Stop";
-    setTimerInterval(state);
-  } else {
-    startBtn.innerHTML = "Start";
+    strikePlayers();
+    unstrikeInfo();
   }
-});
 
-const pad = (num, size) => {
-  return ("00000" + num).substr(-size);
-};
+  localPlayer = playerData;
+  currentTimeStarted = state.timeStarted;
 
-socket.on("stateChange", (state) => {
-  strikedPlayers = [];
-  strikePlayers();
-  unstrikeInfo();
   if (state.started) {
     startBtn.innerHTML = "Stop";
     setTimerInterval(state);
@@ -239,27 +239,38 @@ socket.on("stateChange", (state) => {
     startBtn.innerHTML = "Start";
     setTimerText(900);
 
-    if (intervalID != "") {
-      clearInterval(intervalID);
-    }
+    if (intervalID) clearInterval(intervalID);
   }
 });
+
+const pad = (num, size) => {
+  return ("00000" + num).substr(-size);
+};
 
 startBtn.addEventListener("mousedown", () => {
   socket.emit("startStopGame");
 });
 
-socket.on("assigmment", (location, role) => {
+socket.on("assignment", (location, role) => {
   locationText.innerHTML = location;
   roleText.innerHTML = role;
 });
 
+socket.on("connect", () => {
+  if (localPlayer && localPlayer.disconnected) {
+    socket.emit("requestRejoin", localPlayer);
+  }
+});
+
 document.addEventListener("visibilitychange", () => {
+  if (!localPlayer.isMobile ?? true) return;
+
   if (document.hidden) {
-    //console.log("document hidden");
-    //socket.emit("hiddenTab");
+    socket.emit("hideTab");
+    localPlayer.disconnected = true;
   } else {
-    //console.log("document visible");
-    //socket.emit("visibleTab");
+    if (socket.connected) {
+      socket.emit("requestRejoin", localPlayer);
+    }
   }
 });
