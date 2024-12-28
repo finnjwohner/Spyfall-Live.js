@@ -9,6 +9,7 @@
   --highlightColor: #ffff00;
   --hideInfoBtn: #a5a5a5;
   --headerColor: black;
+  --deleteColor: #f74040;
   background-color: var(--backgroundColor);
 }
 
@@ -67,7 +68,8 @@ a {
   font-weight: 600;
 }
 
-input, section .form button {
+input,
+section .form button {
   font-size: 1rem;
   text-align: center;
   outline: none;
@@ -172,7 +174,8 @@ p a::after {
   height: 1rem;
 }
 
-.fa-regular, .fa-bold {
+.fa-regular,
+.fa-bold {
   margin-left: 0.25rem;
 }
 
@@ -281,6 +284,23 @@ div.info-container p {
   align-items: center;
   justify-content: center;
   transition: color 0.1s ease-in-out;
+  position: relative;
+}
+div.info-container p button {
+  color: var(--textColor);
+  position: absolute;
+  right: 0;
+  border-left: 1px solid var(--borderColor);
+  height: 100%;
+  width: 1.5rem;
+  display: inline-block;
+}
+div.info-container p button:hover {
+  background-color: var(--deleteColor);
+}
+div.info-container p .fa-chess-king {
+  position: absolute;
+  left: 0.5rem;
 }
 
 div.info-container p::-moz-selection {
@@ -321,7 +341,8 @@ section .form p {
   visibility: hidden;
 }
 
-section .form input, section .form button {
+section .form input,
+section .form button {
   margin: 0.3rem 0;
   width: 100%;
   color: var(--textColor);
@@ -359,6 +380,8 @@ section .form button#back-btn::after {
 }
 
 section.error-form {
+  min-width: 6rem;
+  min-height: 4rem;
   background-color: var(--backgroundColor);
   display: none;
 }

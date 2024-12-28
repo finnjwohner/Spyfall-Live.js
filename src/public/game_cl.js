@@ -20,6 +20,7 @@ const playersContainer = document.querySelector(".players");
 const timer = document.querySelector("#timer");
 
 let username = undefined;
+let receivedErrorMsg = false;
 let roomCode = "";
 let strikedPlayers = [];
 
@@ -31,6 +32,8 @@ const error = (errorMsg) => {
   errorForm.style.display = "flex";
   document.querySelector(".error-form h2").innerHTML = errorMsg;
 };
+
+error("Joining game, please wait.");
 
 errorForm.addEventListener("mousedown", (e) => {
   if (e.target !== errorForm) {
@@ -150,12 +153,17 @@ joinBtn.addEventListener("mousedown", enterGame);
 document.addEventListener("keydown", handleKeyDown);
 document.addEventListener("keyup", handleKeyUp);
 
-socket.on("fullGameReject", () => {
-  error("Error joining the game, the game was full");
+socket.on("errorMsg", (msg) => {
+  error(msg);
+  receivedErrorMsg = true;
 });
 
-socket.on("unknownGameReject", (roomCode) => {
-  error(`No game could be found with the room code ${roomCode}`);
+socket.on("disconnect", () => {
+  if (receivedErrorMsg) return;
+
+  if (localPlayer.disconnected)
+    error(`Attempting to reconnect to room ${roomCode}`);
+  else error("You have been disconnected from the game.");
 });
 
 socket.on("playerChange", (players) => {
@@ -164,19 +172,36 @@ socket.on("playerChange", (players) => {
   players.forEach((player) => {
     const playerBox = document.createElement("p");
     playerBox.classList.add("player");
-    playerBox.innerHTML = player.disconnected
-      ? player.username + ' <i class="fa-regular fa-eye-slash"></i>'
-      : player.username;
+    playerBox.innerHTML = player.username;
+    if (player.disconnected)
+      playerBox.innerHTML += ' <i class="fa-regular fa-eye-slash"></i>';
+    if (player.leader)
+      playerBox.innerHTML += ' <i class="fa-regular fa-chess-king"></i>';
+
     playerBox.id = player.socketID;
+
     playerBox.playing = player.playing;
+
     if (!player.playing) {
       playerBox.style.color = "var(--borderColor)";
       playerBox.style.fontStyle = "italic";
     }
 
-    if (localPlayer && localPlayer.socketID == player.socketID) {
-      playerBox.innerHTML += '<i class="fa-regular fa-user"></i>';
+    if (localPlayer.leader) {
+      const deleteButton = document.createElement("button");
+      deleteButton.innerHTML = "&times;";
+
+      if (!player.playing) {
+        deleteButton.style.color = "var(--borderColor)";
+      }
+
+      deleteButton.addEventListener("mousedown", () => {
+        socket.emit("removePlayer", player.socketID);
+      });
+
+      playerBox.appendChild(deleteButton);
     }
+
     playersContainer.appendChild(playerBox);
   });
 
@@ -257,6 +282,10 @@ socket.on("assignment", (location, role) => {
 });
 
 socket.on("connect", () => {
+  joinSection.style.display = username ? "none" : null;
+  errorForm.style.display = "none";
+  document.querySelector(".error-form h2").innerHTML = "";
+
   if (localPlayer && localPlayer.disconnected) {
     socket.emit("requestRejoin", localPlayer);
   }

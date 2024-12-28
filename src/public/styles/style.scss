@@ -1,454 +1,483 @@
 :root {
-    --textColor: #000;
-    --hoverColor: #eee;
-    --backgroundColor: #fff;
-    --greyColor: #858585;
-    --borderColor: #dcdcdc;
-    --highlightColor: #ffff00;
-    --hideInfoBtn: #a5a5a5;
-    --headerColor: black;
-    background-color: var(--backgroundColor);
+  --textColor: #000;
+  --hoverColor: #eee;
+  --backgroundColor: #fff;
+  --greyColor: #858585;
+  --borderColor: #dcdcdc;
+  --highlightColor: #ffff00;
+  --hideInfoBtn: #a5a5a5;
+  --headerColor: black;
+  --deleteColor: #f74040;
+  background-color: var(--backgroundColor);
 }
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter Var', 'Inter', 'Helvetica', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Inter Var", "Inter", "Helvetica", sans-serif;
 }
 
 ::selection {
-    background: var(--highlightColor);
+  background: var(--highlightColor);
 }
 
 html {
-    text-align: center;
-    overflow-x: hidden;
-    background-color: var(--backgroundColor);
+  text-align: center;
+  overflow-x: hidden;
+  background-color: var(--backgroundColor);
 }
 
 body {
-    margin: 0 auto;
-    max-width: 95vw;
-    color: var(--textColor);
-    background-color: var(--backgroundColor);
+  margin: 0 auto;
+  max-width: 95vw;
+  color: var(--textColor);
+  background-color: var(--backgroundColor);
 }
 
 button {
-    outline: none;
-    border: none;
-    background: none;
-    appearance: none;
-    cursor: pointer;
+  outline: none;
+  border: none;
+  background: none;
+  appearance: none;
+  cursor: pointer;
 }
 
 h3 {
-    margin-top: 1rem;
-    color: var(--greyColor);
-    font-weight: 400;
+  margin-top: 1rem;
+  color: var(--greyColor);
+  font-weight: 400;
 }
 
 body {
-    width: 600px;
-    margin: 0 auto;
+  width: 600px;
+  margin: 0 auto;
 }
 
 a {
-    text-decoration: none;
-    color: var(--textColor);
-    font-weight: 600;
+  text-decoration: none;
+  color: var(--textColor);
+  font-weight: 600;
 }
 
-input, section .form button {
-    font-size: 1rem;
-    text-align: center;
-    outline: none;
-    border: 1px solid var(--borderColor);
-    background: none;
-    appearance: none;
-    padding: 0.5rem 0;
+input,
+section .form button {
+  font-size: 1rem;
+  text-align: center;
+  outline: none;
+  border: 1px solid var(--borderColor);
+  background: none;
+  appearance: none;
+  padding: 0.5rem 0;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-input[type=tel]{
-    appearance: textfield;
-    -moz-appearance: textfield;
+input[type="tel"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
 }
 
 .header a {
-    background: var(--highlightColor);
-    color: var(--headerColor);
-    padding: 0.2rem 1rem;
-    font-size: 4rem;
-    font-weight: 900; 
+  background: var(--highlightColor);
+  color: var(--headerColor);
+  padding: 0.2rem 1rem;
+  font-size: 4rem;
+  font-weight: 900;
 }
 
 .header {
-    padding: 1rem;
-    padding-bottom: 0.5rem;
-    display: flex;
-    justify-content: center;
+  padding: 1rem;
+  padding-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
 }
 
 .header-wrapper {
-    border-bottom: 1px solid var(--borderColor);
-    padding-bottom: 1rem;
+  border-bottom: 1px solid var(--borderColor);
+  padding-bottom: 1rem;
 }
 
 .menu {
-    height: 50vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .inner-cont {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .outer-cont {
-    margin: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .half-card {
-    width: calc(50% - 0.5rem);
+  width: calc(50% - 0.5rem);
 }
 
 li {
-    list-style: none;
-    margin: 0.5rem 0;
+  list-style: none;
+  margin: 0.5rem 0;
 }
 
 .card {
-    font-size: 0.9rem;
-    width: var(--amount, 100%);
-    padding: 1rem;
-    border: 1px solid var(--borderColor);
-    background: var(--backgroundColor);
-    display: inline-block;
+  font-size: 0.9rem;
+  width: var(--amount, 100%);
+  padding: 1rem;
+  border: 1px solid var(--borderColor);
+  background: var(--backgroundColor);
+  display: inline-block;
 }
 
 .outer-cont .card {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 p a {
-    font-weight: 400;
-    border-bottom: 3px solid var(--highlightColor);
-    transition: 0.1s background-color ease-in-out, 0.1s color ease-in-out;
+  font-weight: 400;
+  border-bottom: 3px solid var(--highlightColor);
+  transition: 0.1s background-color ease-in-out, 0.1s color ease-in-out;
 }
 
 p a:hover {
-    background: var(--highlightColor);
-    color: black;
-    border: none;
+  background: var(--highlightColor);
+  color: black;
+  border: none;
 }
 
-/// First time using ::after to insert icons! Exciting stuff 
+/// First time using ::after to insert icons! Exciting stuff
 p a::after {
-    content: "\2197";
-    display: inline-block;
-    width: 1rem;
-    height: 1rem;
+  content: "\2197";
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
 }
 
-.fa-regular, .fa-bold {
-    margin-left: 0.25rem;
+.fa-regular,
+.fa-bold {
+  margin-left: 0.25rem;
 }
 
 a.card {
-    font-weight: 400;
-    font-size: 1rem;
-    transition: 0.1s ease-in-out
+  font-weight: 400;
+  font-size: 1rem;
+  transition: 0.1s ease-in-out;
 }
 
 a.card:hover {
-    background: var(--hoverColor);
+  background: var(--hoverColor);
 }
 
 h2 {
-    text-align: center;
-    font-weight: 400;
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
+  text-align: center;
+  font-weight: 400;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
 }
 
 .menu button {
-    border: 1px solid var(--borderColor);
-    width: 200px;
-    height: 60px;
-    background: var(--backgroundColor);
-    font-size: 1rem;
-    margin: 0.5rem;
-    transition: 0.1s ease-in-out;
-    cursor: pointer;
-    color: var(--textColor);
+  border: 1px solid var(--borderColor);
+  width: 200px;
+  height: 60px;
+  background: var(--backgroundColor);
+  font-size: 1rem;
+  margin: 0.5rem;
+  transition: 0.1s ease-in-out;
+  cursor: pointer;
+  color: var(--textColor);
 }
 
 .menu button:hover {
-    background: var(--hoverColor);
+  background: var(--hoverColor);
 }
 
 footer {
-    height: 7rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  height: 7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 #dark-mode-btn {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
 }
 
 header {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 header .wrapper {
-    flex: 1;
+  flex: 1;
 }
 
 header #start-btn {
-    width: fit-content;
-    text-align: left;
+  width: fit-content;
+  text-align: left;
 }
 
 header #timer {
-    text-align: right;
+  text-align: right;
 }
 
 button#hide-info-btn {
-    margin-top: 1rem;
-    color: var(--hideInfoBtn);
-    font-style: italic;
-    font-size: 1rem;
-    transition: color 0.1s ease-in-out;
+  margin-top: 1rem;
+  color: var(--hideInfoBtn);
+  font-style: italic;
+  font-size: 1rem;
+  transition: color 0.1s ease-in-out;
 }
 
 button#hide-info-btn:hover {
-    color: var(--hoverColor);
+  color: var(--hoverColor);
 }
 
 h1#location {
-    font-size: 3rem;
+  font-size: 3rem;
 }
 
 h2#role {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 
 div.info-container {
-    margin-bottom: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    justify-content: space-between;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-between;
 }
 
 div.info-container p {
-    cursor: pointer;
-    border: 1px solid var(--borderColor);
-    width: 9rem;
-    height: 3rem;
-    padding: 0.5rem 1rem;
-    margin: 0.2rem 0;
-    display: flex;
-    align-items: center;    
-    justify-content: center;
-    transition: color 0.1s ease-in-out;
+  cursor: pointer;
+  border: 1px solid var(--borderColor);
+  width: 9rem;
+  height: 3rem;
+  padding: 0.5rem 1rem;
+  margin: 0.2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.1s ease-in-out;
+  position: relative;
+
+  button {
+    color: var(--textColor);
+    position: absolute;
+    right: 0;
+    border-left: 1px solid var(--borderColor);
+    height: 100%;
+    width: 1.5rem;
+    display: inline-block;
+  }
+
+  button:hover {
+    background-color: var(--deleteColor);
+  }
+
+  .fa-chess-king {
+    position: absolute;
+    left: 0.5rem;
+  }
 }
 
 div.info-container p::selection {
-    background: none;
+  background: none;
 }
 
 section {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 section .form {
-    max-width: 80vw;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    box-shadow: var(--isDarkTheme, rgba(100, 100, 111, 0.2)) 0px 7px 29px 0px;
-    padding: 4rem 2rem;
-    background: var(--backgroundColor);
-    border-radius: 16px;
+  max-width: 80vw;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--isDarkTheme, rgba(100, 100, 111, 0.2)) 0px 7px 29px 0px;
+  padding: 4rem 2rem;
+  background: var(--backgroundColor);
+  border-radius: 16px;
 }
 
 section .form p {
-    font-weight: 600;
-    visibility: hidden;
+  font-weight: 600;
+  visibility: hidden;
 }
 
-section .form input, section .form button {
-    margin: 0.3rem 0;
-    width: 100%;
-    color: var(--textColor);
-    transition: background-color 0.1s ease-in-out;
+section .form input,
+section .form button {
+  margin: 0.3rem 0;
+  width: 100%;
+  color: var(--textColor);
+  transition: background-color 0.1s ease-in-out;
 }
 
 section .form button:hover {
-    cursor: pointer;
-    background-color: var(--hoverColor);
+  cursor: pointer;
+  background-color: var(--hoverColor);
 }
 
 section .form button#back-btn {
-    border: none;
-    width: fit-content;
-    cursor: pointer;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    font-weight: 300;
-    border-bottom: 1px solid var(--textColor);
-    transition: all 0.1s ease-in-out;
+  border: none;
+  width: fit-content;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  font-weight: 300;
+  border-bottom: 1px solid var(--textColor);
+  transition: all 0.1s ease-in-out;
 }
 
 section .form button#back-btn:hover {
-    color: var(--borderColor);
-    border-color: var(--borderColor);
-    background: none;
+  color: var(--borderColor);
+  border-color: var(--borderColor);
+  background: none;
 }
 
 section .form button#back-btn::after {
-    content: "\2192";
-    display: inline-block;
-    width: 1rem;
-    height: 1rem;
+  content: "\2192";
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
 }
 
 section.error-form {
-    background-color: var(--backgroundColor);
-    display: none;
+  min-width: 6rem;
+  min-height: 4rem;
+  background-color: var(--backgroundColor);
+  display: none;
 }
 
 header #start-btn::selection {
-    background: none;
+  background: none;
 }
 
 header #start-btn {
-    cursor: pointer;
-    border-bottom: 1px solid var(--textColor);
+  cursor: pointer;
+  border-bottom: 1px solid var(--textColor);
 }
 
 .centre-ad {
-    display: block;
-    margin: 1rem auto;
-    max-width: 100vw;
+  display: block;
+  margin: 1rem auto;
+  max-width: 100vw;
 }
 
-@import url('https://rsms.me/inter/inter.css');
-html { font-family: 'Inter', sans-serif; }
+@import url("https://rsms.me/inter/inter.css");
+html {
+  font-family: "Inter", sans-serif;
+}
 @supports (font-variation-settings: normal) {
-  html { font-family: 'Inter var', sans-serif; }
+  html {
+    font-family: "Inter var", sans-serif;
+  }
 }
 
 @media only screen and (max-width: 630px) {
-    body {
-        width: 480px;
-    }
+  body {
+    width: 480px;
+  }
 
-    #dark-mode-btn {
-        position: static;
+  #dark-mode-btn {
+    position: static;
+  }
 
-    }
+  .header a {
+    font-size: 3rem;
+  }
 
-    .header a {
-        font-size: 3rem;
-    }
+  footer {
+    height: 10rem;
+  }
 
-    footer {
-        height: 10rem;
-    }
+  .inner-cont {
+    flex-direction: column;
+  }
 
-    .inner-cont {
-        flex-direction: column;
-    }
+  .outer-cont {
+    margin-bottom: 5rem;
+  }
 
-    .outer-cont {
-        margin-bottom: 5rem;
-    }
+  .card {
+    width: 100%;
+  }
 
-    .card {
-        width: 100%;
-    }
-
-    div.info-container p {
-        width: 7rem;
-        height: 2.5rem;
-        font-size: 0.8rem;
-    }
+  div.info-container p {
+    width: 7rem;
+    height: 2.5rem;
+    font-size: 0.8rem;
+  }
 }
 
 @media only screen and (max-width: 515px) {
-    body {
-        width: 380px;
-    }
+  body {
+    width: 380px;
+  }
 
-    div.info-container p {
-        width: 5.6rem;
-        height: 2.2rem;
-        font-size: 0.7rem;
-    }
+  div.info-container p {
+    width: 5.6rem;
+    height: 2.2rem;
+    font-size: 0.7rem;
+  }
 
-    h3 {
-        font-size: 1.2rem;
-    }
+  h3 {
+    font-size: 1.2rem;
+  }
 
-    .header a {
-        font-size: 2rem;
-    }
+  .header a {
+    font-size: 2rem;
+  }
 
-    header .wrapper {
-        font-size: 0.8rem;
-    }
+  header .wrapper {
+    font-size: 0.8rem;
+  }
 
-    button#hide-info-btn {
-        margin-top: 0.5rem;
-    }
+  button#hide-info-btn {
+    margin-top: 0.5rem;
+  }
 
-    h1#location {
-        line-height: 110%;
-    }
+  h1#location {
+    line-height: 110%;
+  }
 }
 
 @media only screen and (max-width: 380px) {
-    body {
-        width: 310px;
-    }
+  body {
+    width: 310px;
+  }
 
-    div.info-container p {
-        width: 4.5rem;
-        height: 2rem;
-        font-size: 0.6rem;
-    }
+  div.info-container p {
+    width: 4.5rem;
+    height: 2rem;
+    font-size: 0.6rem;
+  }
 
-    h3 {
-        font-size: 1rem;
-    }
+  h3 {
+    font-size: 1rem;
+  }
 }

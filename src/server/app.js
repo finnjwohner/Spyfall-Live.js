@@ -55,6 +55,7 @@ io.on("connection", (socket) => {
     disconnected: false,
     playing: false,
     joined: false,
+    leader: false,
     location: "Location",
     role: "Role",
   };
@@ -68,7 +69,22 @@ io.on("connection", (socket) => {
   socket.on("hideTab", hideTab);
 
   socket.on("requestRejoin", (clientPlayerData) => {
-    if (!rooms.has(clientPlayerData.roomCode)) return;
+    if (!rooms.has(clientPlayerData.roomCode)) {
+      socket.emit(
+        "errorMsg",
+        `No room exists with the room code ${clientPlayerData.roomCode}.`
+      );
+      io.in(socket.id).disconnectSockets();
+      return;
+    }
+
+    const players = rooms.get(clientPlayerData.roomCode);
+
+    if (players.removedPlayers.has(clientPlayerData.socketID)) {
+      socket.emit("errorMsg", `You have been removed from this room.`);
+      io.in(socket.id).disconnectSockets();
+      return;
+    }
 
     console.log(
       `User ${clientPlayerData.username} (${socket.id}) requested rejoin for room (${clientPlayerData.roomCode})`
@@ -79,7 +95,11 @@ io.on("connection", (socket) => {
         .get(clientPlayerData.roomCode)
         .filter((p) => p.socketID == clientPlayerData.socketID);
 
-      if (!filteredPlayers.length) return;
+      if (!filteredPlayers.length) {
+        socket.emit("errorMsg", `Error. Could not reconnect you to this room.`);
+        io.in(socket.id).disconnectSockets();
+        return;
+      }
 
       player = filteredPlayers[0];
 
@@ -88,7 +108,6 @@ io.on("connection", (socket) => {
     }
 
     player.disconnected = false;
-    const players = rooms.get(player.roomCode);
     socket.emit("stateSet", players.state, player);
     socket.emit("assignment", player.location, player.role);
     io.to(player.roomCode).emit("playerChange", stripPlayerData(players));
@@ -120,6 +139,7 @@ io.on("connection", (socket) => {
       started: false,
       timeStarted: null,
     };
+    players.removedPlayers = new Set();
     rooms.set(newRoomCode, players);
 
     socket.emit("acceptStartGameRequest", newRoomCode);
@@ -127,16 +147,22 @@ io.on("connection", (socket) => {
 
   socket.on("requestJoinGame", (roomCode) => {
     if (!rooms.has(roomCode)) {
-      socket.emit("unknownGameReject", roomCode);
+      socket.emit("errorMsg", `No room exists with the room code ${roomCode}`);
+      io.in(socket.id).disconnectSockets();
       return;
     }
     const tempPlayers = rooms.get(roomCode);
+
+    if (!tempPlayers.length) {
+      player.leader = true;
+    }
 
     if (tempPlayers.length >= 8) {
       console.log(
         `User (${socket.id}) rejected from room (${roomCode}). Room Full`
       );
-      socket.emit("fullGameReject");
+      socket.emit("errorMsg", "This room is already full.");
+      io.in(socket.id).disconnectSockets();
     } else {
       socket.join(roomCode);
       player.roomCode = roomCode;
@@ -144,9 +170,22 @@ io.on("connection", (socket) => {
 
       socket.emit("stateSet", tempPlayers.state, player);
       io.to(roomCode).emit("playerChange", stripPlayerData(tempPlayers));
-
-      rooms.set(roomCode, tempPlayers);
     }
+  });
+
+  socket.on("removePlayer", (removedPlayerSocketID) => {
+    if (!player.leader) return;
+
+    console.log(
+      `User "${player.username}" (${socket.id}) removed player (${removedPlayerSocketID})"`
+    );
+
+    if (rooms.has(player.roomCode)) {
+      const players = rooms.get(player.roomCode);
+      players.removedPlayers.add(removedPlayerSocketID);
+    }
+
+    disconnectPlayer(removedPlayerSocketID, player.roomCode);
   });
 
   socket.on("joinGame", (username, roomCode) => {
@@ -158,7 +197,8 @@ io.on("connection", (socket) => {
     player.joined = true;
 
     if (!rooms.has(roomCode)) {
-      socket.emit("unknownGameReject", roomCode);
+      socket.emit("errorMsg", `No room exists with the room code ${roomCode}`);
+      io.in(socket.id).disconnectSockets();
       return;
     }
 
@@ -167,7 +207,6 @@ io.on("connection", (socket) => {
     socket.emit("stateSet", tempPlayers.state, player);
     io.to(roomCode).emit("playerChange", stripPlayerData(tempPlayers));
 
-    rooms.set(roomCode, tempPlayers);
     console.log(
       `User "${sanitizedUsername}" (${socket.id}) joined room (${roomCode})`
     );
@@ -181,36 +220,53 @@ io.on("connection", (socket) => {
     }
 
     if (player.disconnected) {
-      const timeoutID = setTimeout(disconnectPlayer, 20 * 60 * 1000);
+      const timeoutID = setTimeout(
+        () => disconnectPlayer(socket.id, player.roomCode),
+        20 * 60 * 1000
+      );
       disconnectedPlayerTimeoutIDs.set(socket.id, timeoutID);
       console.log(
         `Set disconnect timer (${socket.id}) for user "${player.username}" (${socket.id}) in room (${player.roomCode})`
       );
-      return;
+
+      if (player.leader) selectNewLeader(socket.id, player.roomCode);
     } else {
-      disconnectPlayer();
+      disconnectPlayer(socket.id, player.roomCode);
     }
   });
 
-  const disconnectPlayer = () => {
+  const disconnectPlayer = (socketID, roomCode) => {
+    if (!rooms.has(roomCode)) return;
+    let players = rooms.get(roomCode);
+
+    const removedPlayer = players.find((p) => p.socketID === socketID);
+    if (!removedPlayer) return;
+
+    io.in(socketID).socketsLeave(roomCode);
+    io.in(socketID).disconnectSockets();
+
     console.log(
-      `User "${player.username}" (${socket.id}) disconnected from room (${player.roomCode})`
+      `User "${removedPlayer.username}" (${socketID}) disconnected from room (${roomCode})`
     );
 
-    let tempPlayers = rooms.get(player.roomCode);
-    const state = tempPlayers.state;
+    const state = players.state;
+    const removedPlayers = players.removedPlayers;
 
-    tempPlayers = tempPlayers.filter(
-      (players) => players.socketID != socket.id
-    );
-    tempPlayers.state = state;
+    players = players.filter((p) => p.socketID != socketID);
 
-    if (tempPlayers.length > 0) {
-      io.to(player.roomCode).emit("playerChange", stripPlayerData(tempPlayers));
-      rooms.set(player.roomCode, tempPlayers);
+    players.state = state;
+    players.removedPlayers = removedPlayers;
+
+    if (players.length > 0) {
+      if (removedPlayer.leader) {
+        selectNewLeader(removedPlayer.socketID, roomCode);
+      }
+
+      io.to(roomCode).emit("playerChange", stripPlayerData(players));
+      rooms.set(roomCode, players);
     } else {
-      console.log(`Clearing Room (${player.roomCode})`);
-      rooms.delete(player.roomCode);
+      console.log(`Clearing Room (${roomCode})`);
+      rooms.delete(roomCode);
     }
   };
 
@@ -277,21 +333,66 @@ io.on("connection", (socket) => {
           );
         });
       io.to(player.roomCode).emit("playerChange", stripPlayerData(tempPlayers));
-      rooms.set(player.roomCode, tempPlayers);
     }
   });
 });
+
+const selectNewLeader = (currentLeaderSocketID, roomCode) => {
+  if (!rooms.has(roomCode)) return;
+
+  const players = rooms.get(roomCode);
+
+  if (players.length <= 1) return;
+
+  let leaderPlayer = undefined;
+  let newLeaderPlayer = undefined;
+  let foundNewLeader = false;
+
+  for (let i = 0; i < players.length; i++) {
+    if (players[i].socketID === currentLeaderSocketID) {
+      leaderPlayer = players[i];
+      continue;
+    }
+
+    if (!players[i].disconnected) {
+      players[i].leader = true;
+      newLeaderPlayer = players[i];
+      foundNewLeader = true;
+      break;
+    }
+  }
+
+  if (!foundNewLeader) {
+    for (let i = 0; i < players.length; i++) {
+      if (players[i].socketID === currentLeaderSocketID) continue;
+
+      players[i].leader = true;
+      newLeaderPlayer = players[i];
+      foundNewLeader = true;
+      break;
+    }
+  }
+
+  leaderPlayer.leader = false;
+  io.to(newLeaderPlayer.socketID).emit(
+    "stateSet",
+    players.state,
+    newLeaderPlayer
+  );
+};
 
 const stripPlayerData = (players) => {
   if (!players) return;
 
   const state = players.state ?? undefined;
+
   const strippedPlayers = players.map((player) => {
     return {
       username: player.username,
       disconnected: player.disconnected,
       socketID: player.socketID,
       playing: player.playing,
+      leader: player.leader,
     };
   });
 
