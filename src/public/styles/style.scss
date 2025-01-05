@@ -240,24 +240,23 @@ footer {
   align-items: center;
   flex-direction: column;
 
-  a#feedback-link {
+  a {
+    //width: 10rem;
     position: absolute;
-    right: 0.5rem;
     font-weight: 400;
     font-size: 0.8rem;
     padding: 0.5rem;
   }
-}
 
-#dark-mode-btn {
-  font-size: 0.8rem;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  cursor: pointer;
+  a#feedback-link {
+    right: 0.5rem;
+  }
 
-  &::selection {
-    background: none;
+  a#rules-link {
+  }
+
+  a#dark-mode-btn {
+    left: 0.5rem;
   }
 }
 
@@ -505,8 +504,30 @@ html {
 
 @media only screen and (max-width: 1080px) {
   footer {
+    min-height: 4rem;
+    padding: 1rem 0;
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column-reverse;
+
+    a {
+      position: relative;
+      width: 20rem;
+      border-bottom: none;
+    }
+
     a#feedback-link {
       right: auto;
+    }
+
+    a#rules-link {
+      right: auto !important;
+      left: auto !important;
+    }
+
+    a#dark-mode-btn {
+      left: auto;
     }
   }
 }

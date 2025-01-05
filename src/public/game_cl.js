@@ -47,6 +47,7 @@ try {
   roomCode = window.location.pathname.match(/[0-9]{5}/)[0];
   document.querySelector("#roomCode").innerHTML = "Room: " + roomCode;
   socket.emit("requestJoinGame", roomCode);
+  document.title = `Spyfall.Live | ${roomCode}`;
 } catch (Exception) {
   error("There was an error finding the roomcode in the URL");
 }
@@ -221,10 +222,12 @@ const getTimerSecondsLeft = (timeStarted) =>
   900 - (Math.floor(Date.now() / 1000) - timeStarted);
 
 const setTimerText = (timerSecondsLeft) => {
-  timer.innerHTML = `${pad(Math.floor(timerSecondsLeft / 60), 2)}:${pad(
+  const timerText = `${pad(Math.floor(timerSecondsLeft / 60), 2)}:${pad(
     timerSecondsLeft % 60,
     2
   )}`;
+  timer.innerHTML = timerText;
+  document.title = `Spyfall.Live | ${roomCode} | ${timerText}`;
 };
 
 const setTimerInterval = (state) => {
