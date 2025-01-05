@@ -22,28 +22,32 @@ const disconnectedPlayerTimeoutIDs = new Map();
 // Set directory for public static files
 app.use(express.static(path.join(__dirname, "../public")));
 
-app.all("/", (req, res) => {
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
-app.all("/index", (req, res) => {
+app.get("/index", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
-app.all("/robots.txt", (req, res) => {
+app.get("/robots.txt", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/robots.txt"));
 });
 
-app.all("/rules", (req, res) => {
+app.get("/rules", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/rules.html"));
 });
 
-app.all("/sitemap", (req, res) => {
+app.get("/sitemap", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/sitemap.xml"));
 });
 
-app.all("/:roomCode", (req, res) => {
+app.get("/:roomCode", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/room.html"));
+});
+
+app.get("/lander", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
 io.on("connection", (socket) => {
