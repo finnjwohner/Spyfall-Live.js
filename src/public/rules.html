@@ -66,34 +66,36 @@
       <div class="inner-cont">
         <!-- I've never used CSS variables before so I thought it might be fun to try :) -->
         <div class="card" style="--amount: calc(50% - 0.5rem)">
-          <h2>Requirements</h2>
-          <ul>
-            <li>4 to 10 Players</li>
+          <h2 style="text-align: left">Requirements</h2>
+          <ul style="text-align: left">
+            <li>3 to 8 Players</li>
             <li>
               Ability to <strong>communicate</strong> with every player
               (in-person or online)
             </li>
             <li>
-              Every player has <strong>Spyfall.Live</strong> open on a browser
+              Each player has joined the same <strong>Spyfall.Live</strong> room
+              on a browser
             </li>
           </ul>
         </div>
         <div class="card" style="--amount: calc(50% - 0.5rem)">
-          <h2>Goal</h2>
-          <ul>
+          <h2 style="text-align: left">Goal</h2>
+          <ul style="text-align: left">
             <li>
-              <strong>Spy: </strong>Guess the location from others' questions
-              and answers
+              <strong>Spy: </strong>Avoid exposure until the end of the round or
+              identify the current location.
             </li>
             <li>
-              <strong>Others: </strong>Figure out who amongst them is the spy
+              <strong>Non-Spies: </strong>Establish consensus on the identity of
+              the spy and expose them.
             </li>
           </ul>
         </div>
       </div>
       <div class="card">
-        <h2>How to play a round</h2>
-        <ol>
+        <h2 style="text-align: left">How to play a round</h2>
+        <ol style="text-align: left">
           <li>
             <strong>Location: </strong>When the round starts, each player except
             for the spy is told the location, and is given a role there. The spy
@@ -111,17 +113,17 @@
           </li>
           <li>
             <strong>No Retaliation: </strong>If someone just finished asking you
-            a question, you can not immediatlely ask them a question back.
+            a question, you can not immediately ask them a question back.
           </li>
         </ol>
       </div>
       <div class="inner-cont">
         <div class="card" style="--amount: calc(65% - 0.5rem)">
-          <h2>Guessing the Spy</h2>
-          <ul>
+          <h2 style="text-align: left">Winning as a non-spy</h2>
+          <ul style="text-align: left">
             <li>
-              <strong>Vote: </strong>At any time, a player can put up someone
-              they suspect to be a spy to a vote.
+              <strong>Vote: </strong>At any time, a player can call a vote to
+              declare someone the spy.
             </li>
             <li>
               <strong>Unanimous: </strong>For a vote to be successful, everyone
@@ -132,17 +134,28 @@
               once per round. Use it wisely.
             </li>
             <li>
-              <strong>Spy Revealed: </strong>After the vote, the player must
-              reveal if they were the spy. The round ends.
+              <strong>Successful Vote: </strong>If the vote passes, the
+              suspected player must reveal if they were the spy. If the spy was
+              successfully voted out, the non-spies win, otherwise, the spy
+              wins.
+            </li>
+            <li>
+              <strong>Failed Vote: </strong>If the vote fails, the game
+              continues. The player that called the vote may not call another
+              for the rest of the round.
             </li>
           </ul>
         </div>
         <div class="card" style="--amount: calc(35% - 0.5rem)">
-          <h2>Guessing the location</h2>
-          <ul>
+          <h2 style="text-align: left">Winning as a spy</h2>
+          <ul style="text-align: left">
             <li>
-              The spy can choose to reveal themselves and guess the location at
-              any point in the game. The round immediatlely ends.
+              The spy wins if they are able to keep their cover and do not get
+              voted out before the timer runs out.
+            </li>
+            <li>
+              The spy may also win at any point by announcing to the group that
+              they are the spy, and then succefully guess the location.
             </li>
           </ul>
         </div>

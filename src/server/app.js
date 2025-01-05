@@ -70,8 +70,6 @@ app.get("/:roomCode", (req, res) => {
 app.post("/suggestions", async (req, res) => {
   console.log("Receiving New Suggestion/Bug Report");
 
-  console.log(req.body);
-
   const validReportTypes = ["bug", "suggestion"];
 
   if (
