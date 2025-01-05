@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-B2L90BCR4Q");
+    </script>
+    <title>Spyfall.Live | Suggest Feature or Report Bug</title>
+    <meta charset="UTF-8" />
+    <meta
+      name="keywords"
+      content="Spyfall, Spyfall.io, Spyfall.live, Spyfall Online"
+    />
+    <meta name="author" content="Finn Wohner" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./styles/style.css" type="text/css" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon16.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon32.ico" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/img/favicon64.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="128x128"
+      href="/img/favicon128.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="256x256"
+      href="/img/favicon256.ico"
+    />
+    <script src="./darkModeToggle.js" defer></script>
+    <script src="./suggestionForm.js" defer></script>
+    <meta
+      property="og:title"
+      content="Spyfall.Live | Suggest Feature or Report Bug"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.spyfall.live/suggestions" />
+    <meta
+      property="og:image"
+      content="https://www.spyfall.live/img/opengraphimg.jpeg"
+    />
+    <meta
+      name="description"
+      content="Suggest a feature or report a bug for Spyfall.Live."
+    />
+    <meta
+      property="og:description"
+      content="Suggest a feature or report a bug for Spyfall.Live."
+    />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta name="theme-color" content="#fff" />
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <h1 class="header"><a href="./">Spyfall.Live</a></h1>
+      <p id="dark-mode-btn">Light Mode</p>
+    </div>
+    <div class="suggestions-info">
+      <a class="inline-a inline-a-back" href="./">Go Back</a>
+      <p>
+        Spyfall.Live is a small project I work on occasionally in my spare time.
+        There may be things that aren't working as they should, or things that
+        could be added. I love to hear back from those that use this app, please
+        let me know of any suggestions, or bug reports that you may have.
+      </p>
+      <form>
+        <label for="report-type">Report Type *</label>
+        <p class="error" id="report-type-error">Must be a valid report type.</p>
+        <p>Is this report for a bug, or do you have a suggestion?</p>
+        <select id="report-type" name="report-type" required>
+          <option value="bug">Bug</option>
+          <option value="suggestion">Suggestion</option>
+        </select>
+
+        <label for="report">Information *</label>
+        <p class="error" id="report-error">Must not be empty.</p>
+        <p>As much detail as possible is appreciated here.</p>
+        <textarea
+          id="report"
+          name="report"
+          rows="5"
+          minrows
+          required
+        ></textarea>
+        <label for="email">Email</label>
+        <p>Your email if you would like to receive a reply. Optional.</p>
+        <input id="email" name="email" type="email" />
+        <a class="inline-a inline-a-forward" id="submit"
+          >Send Suggestion/Bug Report</a
+        >
+        <p id="sending-text" style="display: none">Sending Report...</p>
+      </form>
+    </div>
+    <div class="suggestions-sent">
+      <p>
+        Thank you, your report was sent successfully and I'll read it in time.
+      </p>
+      <div class="suggestions-options">
+        <a class="inline-a inline-a-back" href="./">Go Back</a> or
+        <a class="inline-a inline-a-forward" id="submit-another-button"
+          >Submit Another Report</a
+        >
+      </div>
+    </div>
+  </body>
+</html>

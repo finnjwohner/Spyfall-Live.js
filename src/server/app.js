@@ -8,11 +8,26 @@ import { shuffleArray } from "./util.js";
 import { locations } from "./locations_sv.js";
 import { roles } from "./roles_sv.js";
 import mobile from "is-mobile";
+import sanitize from "sanitize";
+import { MongoClient } from "mongodb";
 
 const __dirname = import.meta.dirname;
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
+
+const APP_CONFIG = JSON.parse(process.env.APP_CONFIG);
+const MONGO_PW = process.env.MONGO_PW;
+const MONGO_URL = `mongodb://${APP_CONFIG.mongo.user}:${encodeURIComponent(
+  MONGO_PW
+)}@${APP_CONFIG.mongo.hostString}`;
+console.log(MONGO_URL);
+
+MongoClient.connect(MONGO_URL, function (err, db) {
+  if (err) throw err;
+  console.log("MongoDB Connection Success");
+  db.close();
+});
 
 // Initialise the rooms
 const rooms = new Map();
@@ -21,6 +36,9 @@ const disconnectedPlayerTimeoutIDs = new Map();
 
 // Set directory for public static files
 app.use(express.static(path.join(__dirname, "../public")));
+app.use(sanitize.middleware);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
@@ -42,12 +60,29 @@ app.get("/rules", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/rules.html"));
 });
 
+app.get("/suggestions", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/suggestions.html"));
+});
+
 app.get("/sitemap", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/sitemap.xml"));
 });
 
 app.get("/:roomCode", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/room.html"));
+});
+
+app.post("/suggestions", (req, res) => {
+  const { reportType, report, email } = req.body;
+
+  const validReportTypes = ["bug", "suggestion"];
+
+  if (!validReportTypes.includes(reportType) || report.length === 0) {
+    res.status(400).send();
+    return;
+  }
+
+  res.status(201).send();
 });
 
 io.on("connection", (socket) => {

@@ -55,7 +55,7 @@ info.forEach((i) => {
   i.addEventListener("mousedown", () => {
     if (!i.striked) {
       i.style.textDecoration = "line-through";
-      i.style.color = "var(--borderColor)";
+      i.style.color = "var(--tertiaryTextColor)";
     } else {
       i.style.textDecoration = "none";
       i.style.color = "var(--textColor)";
@@ -78,9 +78,9 @@ const strikePlayers = () => {
   players.forEach((p) => {
     if (strikedPlayers.includes(p.id)) {
       p.style.textDecoration = "line-through";
-      p.style.color = "var(--borderColor)";
+      p.style.color = "var(--tertiaryTextColor)";
     } else if (!p.playing) {
-      p.style.color = "var(--borderColor)";
+      p.style.color = "var(--tertiaryTextColor)";
       p.style.fontStyle = "italic";
     } else {
       p.style.textDecoration = "none";
@@ -99,7 +99,7 @@ const strikePlayers = () => {
       } else {
         strikedPlayers.push(p.id);
         p.style.textDecoration = "line-through";
-        p.style.color = "var(--borderColor)";
+        p.style.color = "var(--tertiaryTextColor)";
       }
     });
   });
@@ -183,7 +183,7 @@ socket.on("playerChange", (players) => {
     playerBox.playing = player.playing;
 
     if (!player.playing) {
-      playerBox.style.color = "var(--borderColor)";
+      playerBox.style.color = "var(--tertiaryTextColor)";
       playerBox.style.fontStyle = "italic";
     }
 
@@ -192,7 +192,7 @@ socket.on("playerChange", (players) => {
       deleteButton.innerHTML = "&times;";
 
       if (!player.playing) {
-        deleteButton.style.color = "var(--borderColor)";
+        deleteButton.style.color = "var(--tertiaryTextColor)";
       }
 
       deleteButton.addEventListener("mousedown", () => {

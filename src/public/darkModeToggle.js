@@ -44,6 +44,8 @@ const setDarkMode = () => {
     .querySelector('meta[name="theme-color"]')
     .setAttribute("content", "#191919");
   root.style.setProperty("--textColor", "#d8d8d8");
+  root.style.setProperty("--secondaryTextColor", "#9c9c9c");
+  root.style.setProperty("--tertiaryTextColor", "#5a5a5a");
   root.style.setProperty("--hoverColor", "#292929");
   root.style.setProperty("--backgroundColor", "#191919");
   root.style.setProperty("--borderColor", "#252525");
@@ -59,6 +61,8 @@ const setLightMode = () => {
     .querySelector('meta[name="theme-color"]')
     .setAttribute("content", "#fff");
   root.style.setProperty("--textColor", "#000");
+  root.style.setProperty("--secondaryTextColor", "#2e2e2e");
+  root.style.setProperty("--tertiaryTextColor", "#8a8a8a");
   root.style.setProperty("--hoverColor", "#eee");
   root.style.setProperty("--backgroundColor", "#fff");
   root.style.setProperty("--borderColor", "#dcdcdc");

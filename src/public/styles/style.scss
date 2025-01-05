@@ -1,5 +1,7 @@
 :root {
   --textColor: #000;
+  --secondaryTextColor: #2e2e2e;
+  --tertiaryTextColor: #8a8a8a;
   --hoverColor: #eee;
   --backgroundColor: #fff;
   --greyColor: #858585;
@@ -29,6 +31,9 @@ html {
 }
 
 body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
   max-width: 95vw;
   color: var(--textColor);
@@ -61,6 +66,8 @@ a {
 }
 
 input,
+textarea,
+select,
 section .form button {
   font-size: 1rem;
   text-align: center;
@@ -144,24 +151,39 @@ li {
   margin-top: 1rem;
 }
 
-p a {
+a.inline-a {
+  display: inline-block;
+  cursor: pointer;
   font-weight: 400;
   border-bottom: 3px solid var(--highlightColor);
-  transition: 0.1s background-color ease-in-out, 0.1s color ease-in-out;
+  transition: 0.1s background-color ease-in-out, 0.1s color ease-in-out,
+    border-color 0.1s ease-in-out;
+
+  &:hover {
+    background: var(--highlightColor);
+    color: black;
+    border-bottom: 3px solid var(--backgroundColor);
+  }
+
+  &::after {
+    content: "\2197";
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+  }
 }
 
-p a:hover {
-  background: var(--highlightColor);
-  color: black;
-  border: none;
+a.inline-a.inline-a-back::before {
+  content: "\2190";
 }
 
-/// First time using ::after to insert icons! Exciting stuff
-p a::after {
-  content: "\2197";
-  display: inline-block;
-  width: 1rem;
-  height: 1rem;
+a.inline-a.inline-a-back::after {
+  content: "";
+  width: 0;
+}
+
+a.inline-a.inline-a-forward::after {
+  content: "\2192";
 }
 
 .fa-regular,
@@ -202,18 +224,41 @@ h2 {
   background: var(--hoverColor);
 }
 
-footer {
+aside {
   height: 7rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
+footer {
+  min-height: 4rem;
+  padding: 1rem 0;
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
+
+  a#feedback-link {
+    position: absolute;
+    right: 0.5rem;
+    font-weight: 400;
+    font-size: 0.8rem;
+    padding: 0.5rem;
+  }
+}
+
 #dark-mode-btn {
+  font-size: 0.8rem;
   position: absolute;
   top: 1rem;
   right: 1rem;
   cursor: pointer;
+
+  &::selection {
+    background: none;
+  }
 }
 
 header {
@@ -236,14 +281,14 @@ header #timer {
 
 button#hide-info-btn {
   margin-top: 1rem;
-  color: var(--hideInfoBtn);
+  color: var(--secondaryTextColor);
   font-style: italic;
   font-size: 1rem;
   transition: color 0.1s ease-in-out;
 }
 
 button#hide-info-btn:hover {
-  color: var(--hoverColor);
+  color: var(--tertiaryTextColor);
 }
 
 h1#location {
@@ -318,7 +363,7 @@ section .form {
   align-items: center;
   display: flex;
   flex-direction: column;
-  box-shadow: var(--isDarkTheme, rgba(100, 100, 111, 0.2)) 0px 7px 29px 0px;
+  //box-shadow: var(--isDarkTheme, rgba(100, 100, 111, 0.2)) 0px 7px 29px 0px;
   padding: 4rem 2rem;
   background: var(--backgroundColor);
   border-radius: 16px;
@@ -388,6 +433,66 @@ header #start-btn {
   max-width: 100vw;
 }
 
+.suggestions-sent {
+  padding: 1rem 0;
+  display: none;
+}
+
+.suggestions-info {
+  padding: 1rem 0;
+  text-align: left;
+
+  a.inline-a {
+    margin-bottom: 1rem;
+  }
+
+  form {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: left;
+
+    textarea,
+    input,
+    select {
+      text-align: left;
+      padding: 0.3rem;
+      resize: vertical;
+      margin-bottom: 1rem;
+      color: var(--textColor);
+    }
+
+    textarea {
+      min-height: 5rem;
+    }
+
+    select option {
+      background-color: var(--backgroundColor);
+      appearance: none;
+      border: none;
+      outline: none;
+    }
+
+    p {
+      font-size: 0.9rem;
+      font-style: italic;
+      color: #9c9c9c;
+      margin-bottom: 0.5rem;
+    }
+
+    p.error {
+      color: var(--deleteColor);
+      margin: 0;
+      display: none;
+    }
+
+    a {
+      width: fit-content;
+    }
+  }
+}
+
 @import url("https://rsms.me/inter/inter.css");
 html {
   font-family: "Inter", sans-serif;
@@ -395,6 +500,14 @@ html {
 @supports (font-variation-settings: normal) {
   html {
     font-family: "Inter var", sans-serif;
+  }
+}
+
+@media only screen and (max-width: 1080px) {
+  footer {
+    a#feedback-link {
+      right: auto;
+    }
   }
 }
 
@@ -411,7 +524,7 @@ html {
     font-size: 3rem;
   }
 
-  footer {
+  aside {
     height: 10rem;
   }
 
