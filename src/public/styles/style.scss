@@ -159,17 +159,15 @@ a.inline-a {
   transition: 0.1s background-color ease-in-out, 0.1s color ease-in-out,
     border-color 0.1s ease-in-out;
 
-  &:hover {
-    background: var(--highlightColor);
-    color: black;
-    border-bottom: 3px solid var(--backgroundColor);
-  }
-
   &::after {
     content: "\2197";
     display: inline-block;
     width: 1rem;
     height: 1rem;
+  }
+
+  &::selection {
+    background: none;
   }
 }
 
@@ -197,10 +195,6 @@ a.card {
   transition: 0.1s ease-in-out;
 }
 
-a.card:hover {
-  background: var(--hoverColor);
-}
-
 h2 {
   text-align: center;
   font-weight: 400;
@@ -218,10 +212,6 @@ h2 {
   transition: 0.1s ease-in-out;
   cursor: pointer;
   color: var(--textColor);
-}
-
-.menu button:hover {
-  background: var(--hoverColor);
 }
 
 aside {
@@ -257,6 +247,10 @@ footer {
 
   a#dark-mode-btn {
     left: 0.5rem;
+
+    &::after {
+      content: "";
+    }
   }
 }
 
@@ -284,10 +278,6 @@ button#hide-info-btn {
   font-style: italic;
   font-size: 1rem;
   transition: color 0.1s ease-in-out;
-}
-
-button#hide-info-btn:hover {
-  color: var(--tertiaryTextColor);
 }
 
 h1#location {
@@ -329,10 +319,6 @@ div.info-container p {
     display: inline-block;
   }
 
-  button:hover {
-    background-color: var(--deleteColor);
-  }
-
   .fa-chess-king {
     position: absolute;
     left: 0.5rem;
@@ -359,13 +345,17 @@ section {
 section .form {
   max-width: 80vw;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   flex-direction: column;
-  //box-shadow: var(--isDarkTheme, rgba(100, 100, 111, 0.2)) 0px 7px 29px 0px;
-  padding: 4rem 2rem;
+  padding: 2rem 2rem 4rem 2rem;
   background: var(--backgroundColor);
   border-radius: 16px;
+
+  a.inline-a {
+    padding: 0.3rem;
+    padding-left: 0;
+  }
 }
 
 section .form p {
@@ -381,11 +371,6 @@ section .form button {
   transition: background-color 0.1s ease-in-out;
 }
 
-section .form button:hover {
-  cursor: pointer;
-  background-color: var(--hoverColor);
-}
-
 section .form button#back-btn {
   border: none;
   width: fit-content;
@@ -395,12 +380,6 @@ section .form button#back-btn {
   font-weight: 300;
   border-bottom: 1px solid var(--textColor);
   transition: all 0.1s ease-in-out;
-}
-
-section .form button#back-btn:hover {
-  color: var(--borderColor);
-  border-color: var(--borderColor);
-  background: none;
 }
 
 section .form button#back-btn::after {
@@ -502,12 +481,49 @@ html {
   }
 }
 
+@media (hover: hover) {
+  a.inline-a {
+    &:hover {
+      background: var(--highlightColor);
+      color: black;
+      border-bottom: 3px solid var(--backgroundColor);
+    }
+  }
+
+  a.card:hover {
+    background: var(--hoverColor);
+  }
+
+  .menu button:hover {
+    background: var(--hoverColor);
+  }
+
+  button#hide-info-btn:hover {
+    color: var(--tertiaryTextColor);
+  }
+
+  div.info-container p {
+    button {
+      &:hover {
+        background-color: var(--deleteColor);
+      }
+    }
+  }
+
+  section .form button:hover {
+    cursor: pointer;
+    background-color: var(--hoverColor);
+  }
+
+  section .form button#back-btn:hover {
+    color: var(--borderColor);
+    border-color: var(--borderColor);
+    background: none;
+  }
+}
+
 @media only screen and (max-width: 1080px) {
   footer {
-    min-height: 4rem;
-    padding: 1rem 0;
-    flex-grow: 1;
-    display: flex;
     justify-content: flex-start;
     flex-direction: column-reverse;
 
@@ -515,6 +531,18 @@ html {
       position: relative;
       width: 20rem;
       border-bottom: none;
+    }
+
+    a.inline-a {
+      border-bottom: none;
+
+      &:hover {
+        border-bottom: none;
+      }
+    }
+
+    a:last-child {
+      border-top: 3px solid #ffff00;
     }
 
     a#feedback-link {
