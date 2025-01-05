@@ -30,6 +30,10 @@ app.get("/index", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
+app.get("/lander", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
+});
+
 app.get("/robots.txt", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/robots.txt"));
 });
@@ -44,10 +48,6 @@ app.get("/sitemap", (req, res) => {
 
 app.get("/:roomCode", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/room.html"));
-});
-
-app.get("/lander", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
 io.on("connection", (socket) => {
