@@ -17,7 +17,7 @@ const server = createServer(app);
 const io = new Server(server);
 
 const APP_CONFIG = JSON.parse(process.env.APP_CONFIG);
-const MONGO_PW = JSON.parse(process.env.MONGO_PW);
+const MONGO_PW = process.env.MONGO_PW;
 const MONGO_URL = `mongodb://${APP_CONFIG.mongo.user}:${encodeURIComponent(
   MONGO_PW
 )}@${APP_CONFIG.mongo.hostString}`;
