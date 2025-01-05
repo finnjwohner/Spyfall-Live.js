@@ -17,17 +17,12 @@ const server = createServer(app);
 const io = new Server(server);
 
 const APP_CONFIG = JSON.parse(process.env.APP_CONFIG);
-const MONGO_PW = process.env.MONGO_PW;
+const MONGO_PW = JSON.parse(process.env.MONGO_PW);
 const MONGO_URL = `mongodb://${APP_CONFIG.mongo.user}:${encodeURIComponent(
   MONGO_PW
 )}@${APP_CONFIG.mongo.hostString}`;
-console.log(MONGO_URL);
 
-MongoClient.connect(MONGO_URL, function (err, db) {
-  if (err) throw err;
-  console.log("MongoDB Connection Success");
-  db.close();
-});
+const mongoClient = new MongoClient(MONGO_URL);
 
 // Initialise the rooms
 const rooms = new Map();
@@ -72,17 +67,40 @@ app.get("/:roomCode", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/room.html"));
 });
 
-app.post("/suggestions", (req, res) => {
-  const { reportType, report, email } = req.body;
+app.post("/suggestions", async (req, res) => {
+  console.log("Receiving New Suggestion/Bug Report");
+
+  console.log(req.body);
 
   const validReportTypes = ["bug", "suggestion"];
 
-  if (!validReportTypes.includes(reportType) || report.length === 0) {
+  if (
+    !validReportTypes.includes(req.body.reportType) ||
+    req.body.report.length === 0
+  ) {
     res.status(400).send();
     return;
   }
 
-  res.status(201).send();
+  try {
+    await mongoClient.connect();
+    console.log("MongoDB Connection Secured");
+
+    const db = mongoClient.db(APP_CONFIG.mongo.db);
+    const reports = db.collection("reports");
+
+    const result = await reports.insertOne(req.body);
+    console.log(
+      `A document was inserted into reports with the _id: ${result.insertedId}`
+    );
+    res.status(201).send();
+  } catch (e) {
+    res.status(500).send();
+    console.error(e);
+  } finally {
+    console.log("Closing MongoDB Connection");
+    mongoClient.close();
+  }
 });
 
 io.on("connection", (socket) => {

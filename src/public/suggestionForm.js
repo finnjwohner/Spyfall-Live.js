@@ -9,6 +9,7 @@ const submitAnotherButton = document.querySelector("#submit-another-button");
 
 const reportTypeError = document.querySelector("#report-type-error");
 const reportError = document.querySelector("#report-error");
+const sendingError = document.querySelector("#sending-error");
 
 const sendingReportText = document.querySelector("#sending-text");
 
@@ -67,6 +68,9 @@ const onSubmit = async (e) => {
     suggestionInfo.style.display = "none";
     suggestionsSent.style.display = "block";
   } catch (error) {
+    sendingError.style.display = "inline-block";
+    submitButton.style.display = "inline-block";
+    sendingReportText.style.display = "none";
     console.error(error);
   }
 };
