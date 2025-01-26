@@ -191,6 +191,7 @@ io.on("connection", (socket) => {
     console.log(`Creating room (${newRoomCode})`);
     const players = [];
     players.state = {
+      roomCreationTime: Date.now(),
       started: false,
       timeStarted: null,
     };
@@ -231,8 +232,16 @@ io.on("connection", (socket) => {
   socket.on("removePlayer", (removedPlayerSocketID) => {
     if (!player.leader) return;
 
+    const players = rooms.get(player.roomCode);
+
+    let removedPlayerName = players.find(
+      (p) => p.socketID === removedPlayerSocketID
+    ).username;
+
     console.log(
-      `User "${player.username}" (${socket.id}) removed player (${removedPlayerSocketID})"`
+      `User "${player.username}" (${socket.id}) removed player "${
+        removedPlayerName ?? "Unknown"
+      }" (${removedPlayerSocketID})`
     );
 
     if (rooms.has(player.roomCode)) {
@@ -320,7 +329,11 @@ io.on("connection", (socket) => {
       io.to(roomCode).emit("playerChange", stripPlayerData(players));
       rooms.set(roomCode, players);
     } else {
-      console.log(`Clearing Room (${roomCode})`);
+      const duration = Date.now() - players.state.roomCreationTime;
+      const durationString = new Date(duration).toISOString().slice(11, 19);
+      console.log(
+        `Clearing Room (${roomCode}) - Existed for ${durationString}`
+      );
       rooms.delete(roomCode);
     }
   };
