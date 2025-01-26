@@ -10,6 +10,7 @@ import { roles } from "./roles_sv.js";
 import mobile from "is-mobile";
 import sanitize from "sanitize";
 import { MongoClient } from "mongodb";
+import logging from "./logging.js";
 
 const __dirname = import.meta.dirname;
 const app = express();
@@ -141,9 +142,7 @@ io.on("connection", (socket) => {
       return;
     }
 
-    console.log(
-      `User ${clientPlayerData.username} (${socket.id}) requested rejoin for room (${clientPlayerData.roomCode})`
-    );
+    logging.rejoin(player);
 
     if (clientPlayerData.socketID != player.socketID) {
       const filteredPlayers = rooms
@@ -168,9 +167,7 @@ io.on("connection", (socket) => {
     io.to(player.roomCode).emit("playerChange", stripPlayerData(players));
 
     if (disconnectedPlayerTimeoutIDs.has(clientPlayerData.socketID)) {
-      console.log(
-        `Clearing disconnect timer (${clientPlayerData.socketID}) for user "${player.username}" (${socket.id}) in room (${player.roomCode})`
-      );
+      logging.clearDisconnectTimer(player);
       clearTimeout(disconnectedPlayerTimeoutIDs.get(clientPlayerData.socketID));
       disconnectedPlayerTimeoutIDs.delete(clientPlayerData.socketID);
     }
@@ -188,9 +185,10 @@ io.on("connection", (socket) => {
       }
     } while (rooms.has(newRoomCode));
 
-    console.log(`Creating room (${newRoomCode})`);
+    logging.createRoom(newRoomCode);
     const players = [];
     players.state = {
+      code: newRoomCode,
       roomCreationTime: Date.now(),
       started: false,
       timeStarted: null,
@@ -214,9 +212,7 @@ io.on("connection", (socket) => {
     }
 
     if (tempPlayers.length >= 8) {
-      console.log(
-        `User (${socket.id}) rejected from room (${roomCode}). Room Full`
-      );
+      logging.roomFull(socket.id, roomCode);
       socket.emit("errorMsg", "This room is already full.");
       io.in(socket.id).disconnectSockets();
     } else {
@@ -238,11 +234,10 @@ io.on("connection", (socket) => {
       (p) => p.socketID === removedPlayerSocketID
     ).username;
 
-    console.log(
-      `User "${player.username}" (${socket.id}) removed player "${
-        removedPlayerName ?? "Unknown"
-      }" (${removedPlayerSocketID})`
-    );
+    logging.removedPlayer(player, {
+      username: removedPlayerName,
+      socketID: removedPlayerSocketID,
+    });
 
     if (rooms.has(player.roomCode)) {
       const players = rooms.get(player.roomCode);
@@ -253,9 +248,11 @@ io.on("connection", (socket) => {
   });
 
   socket.on("joinGame", (username, roomCode) => {
-    const sanitizedUsername = escape(username).trim();
+    let sanitizedUsername = escape(username).trim();
     if (sanitizedUsername === "") {
       sanitizedUsername = "Dr. Noname";
+    } else if (sanitizedUsername.length > 16) {
+      sanitizedUsername = sanitizedUsername.substring(0, 16);
     }
     player.username = sanitizedUsername;
     player.joined = true;
@@ -271,9 +268,7 @@ io.on("connection", (socket) => {
     socket.emit("stateSet", tempPlayers.state, player);
     io.to(roomCode).emit("playerChange", stripPlayerData(tempPlayers));
 
-    console.log(
-      `User "${sanitizedUsername}" (${socket.id}) joined room (${roomCode})`
-    );
+    logging.joined(player);
   });
 
   socket.on("disconnect", () => {
@@ -289,9 +284,7 @@ io.on("connection", (socket) => {
         20 * 60 * 1000
       );
       disconnectedPlayerTimeoutIDs.set(socket.id, timeoutID);
-      console.log(
-        `Set disconnect timer for user "${player.username}" (${socket.id}) in room (${player.roomCode})`
-      );
+      logging.disconnectTimer(player);
 
       if (player.leader) selectNewLeader(socket.id, player.roomCode);
     } else {
@@ -309,9 +302,7 @@ io.on("connection", (socket) => {
     io.in(socketID).socketsLeave(roomCode);
     io.in(socketID).disconnectSockets();
 
-    console.log(
-      `User "${removedPlayer.username}" (${socketID}) disconnected from room (${roomCode})`
-    );
+    logging.disconnected(player);
 
     const state = players.state;
     const removedPlayers = players.removedPlayers;
@@ -329,11 +320,7 @@ io.on("connection", (socket) => {
       io.to(roomCode).emit("playerChange", stripPlayerData(players));
       rooms.set(roomCode, players);
     } else {
-      const duration = Date.now() - players.state.roomCreationTime;
-      const durationString = new Date(duration).toISOString().slice(11, 19);
-      console.log(
-        `Clearing Room (${roomCode}) - Existed for ${durationString}`
-      );
+      logging.clearRoom(players);
       rooms.delete(roomCode);
     }
   };
