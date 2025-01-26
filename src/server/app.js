@@ -290,7 +290,7 @@ io.on("connection", (socket) => {
       );
       disconnectedPlayerTimeoutIDs.set(socket.id, timeoutID);
       console.log(
-        `Set disconnect timer (${socket.id}) for user "${player.username}" (${socket.id}) in room (${player.roomCode})`
+        `Set disconnect timer for user "${player.username}" (${socket.id}) in room (${player.roomCode})`
       );
 
       if (player.leader) selectNewLeader(socket.id, player.roomCode);
