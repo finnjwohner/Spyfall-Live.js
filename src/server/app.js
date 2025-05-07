@@ -428,7 +428,10 @@ const selectNewLeader = (currentLeaderSocketID, roomCode) => {
     }
   }
 
-  leaderPlayer.leader = false;
+  if (leaderPlayer) {
+    leaderPlayer.leader = false;
+  }
+  
   io.to(newLeaderPlayer.socketID).emit(
     "stateSet",
     players.state,
